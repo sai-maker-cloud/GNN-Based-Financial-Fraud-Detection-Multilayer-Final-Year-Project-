@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">ফ্রডশিল্ড AI</string>
+    <string name="tagline">GNN চালিত আর্থিক জালিয়াতি এবং QR সুরক্ষা গেটকিপার</string>
+
+    <!-- Navigation & Titles -->
+    <string name="nav_home">ড্যাশবোর্ড</string>
+    <string name="nav_scanner">QR স্ক্যান</string>
+    <string name="nav_history">লগসমূহ</string>
+    <string name="nav_settings">সেটিংস</string>
+
+    <!-- Top Bar Quick Actions -->
+    <string name="toggle_theme">ডার্ক/লাইট থিম পরিবর্তন করুন</string>
+    <string name="toggle_language">ভাষা পরিবর্তন করুন</string>
+
+    <!-- Hero Actions -->
+    <string name="scan_and_protect">ক্যামেরা দিয়ে QR স্ক্যান করুন</string>
+    <string name="scan_desc">তাৎক্ষণিক JA-GNN গ্রাফ এবং ফিশিং লিঙ্ক সুরক্ষা পরীক্ষা</string>
+    <string name="paste_payload">পেলোড পেস্ট / পরীক্ষা করুন</string>
+    <string name="test_sample">নমুনা জালিয়াতি পরীক্ষা করুন</string>
+
+    <!-- Manual Input & Verification -->
+    <string name="manual_check_title">ম্যানুয়াল QR / URL যাচাইকরণ</string>
+    <string name="manual_check_desc">নিরাপত্তা পরীক্ষার জন্য যেকোনো পেমেন্ট QR, UPI বা ওয়েব লিঙ্ক পেস্ট করুন</string>
+    <string name="manual_check_hint">যেমন: upi://pay?pa=store@upi অথবা https://example.com</string>
+    <string name="btn_check_ai">AI দিয়ে পরীক্ষা করুন</string>
+    <string name="paste_clipboard">পেস্ট</string>
+    <string name="preset_samples">পরীক্ষার নমুনা:</string>
+    <string name="preset_safe_url">নিরাপদ URL</string>
+    <string name="preset_payment_url">পেমেন্ট URL (JA-GNN)</string>
+    <string name="preset_safe">নিরাপদ মার্চেন্ট</string>
+    <string name="preset_phishing">ফিশিং লিঙ্ক</string>
+    <string name="preset_mule">মিউল সিন্ডিकेट</string>
+    <string name="preset_collect">কালেক্ট স্ক্যাম</string>
+
+    <!-- Engine Status Card -->
+    <string name="engine_title">JA-GNN সুরক্ষা ইঞ্জিন</string>
+    <string name="engine_connected">AI ইঞ্জিন সক্রিয় এবং সুরক্ষা চালু আছে</string>
+    <string name="engine_offline">সার্ভার অফলাইন রয়েছে</string>
+    <string name="stat_scanned">মোট স্ক্যান</string>
+    <string name="stat_blocked">প্রতিরোধ করা জালিয়াতি</string>
+    <string name="stat_safe">নিরাপদ পাওয়া গেছে</string>
+
+    <!-- Explainable AI (XAI) Breakdown -->
+    <string name="xai_attribution_title">AI ইঞ্জিন সনাক্তকরণ বিবরণ</string>
+    <string name="xai_decision_safe">যাচাইকৃত এবং নিরাপদ</string>
+    <string name="xai_decision_warn">সন্দেহজনক অসঙ্গতি</string>
+    <string name="xai_decision_block">বিপজ্জনক জালিয়াতি ধরা পড়েছে</string>
+
+    <string name="decision_allow_title">লেনদেন যাচাইকৃত এবং নিরাপদ</string>
+    <string name="decision_allow_desc">কোনো সন্দেহজনক গ্রাফ সংযোগ বা ফিশিং হুমকি পাওয়া যায়নি।</string>
+    <string name="decision_url_safe_title">ওয়েব লিঙ্ক যাচাইকৃত এবং নিরাপদ</string>
+    <string name="decision_url_safe_desc">ডোমেনটি আসল এবং পরিষ্কার। কোনো ফিশিং বা ম্যালওয়্যার নেই।</string>
+    <string name="btn_proceed_to_pay">পেমেন্ট অ্যাপ খুলুন</string>
+    <string name="btn_open_browser">নিরাপদ লিঙ্ক ব্রাউজারে খুলুন</string>
+    <string name="btn_proceed_link_anyway">ঝুঁকি বুঝে এগিয়ে যান</string>
+
+    <string name="decision_warn_title">সতর্কতা: সন্দেহজনক অ্যাকাউন্ট</string>
+    <string name="decision_warn_desc">এই অ্যাকাউন্টে অস্বাভাবিক গতিবিধি বা সন্দেহজনক নেটওয়ার্ক সম্পর্ক রয়েছে।</string>
+    <string name="btn_proceed_anyway">ঝুঁকি বুঝে এগিয়ে যান</string>
+    <string name="btn_cancel_payment">পেমেন্ট বাতিল করুন</string>
+
+    <string name="decision_block_title">জালিয়াতি সনাক্ত এবং ব্লক করা হয়েছে</string>
+    <string name="decision_block_desc">জালিয়াতি ধরা পড়েছে! আর্থিক ক্ষতির হাত থেকে বাঁচতে পেমেন্ট অ্যাপে যাওয়া বন্ধ করা হয়েছে।</string>
+    <string name="hard_block_notice">🔒 হার্ড ব্লক: আপনার সুরক্ষার জন্য পেমেন্ট গেটওয়ে রিডাইরেকশন ব্লক করা হয়েছে।</string>
+    <string name="btn_dismiss">ঠিক আছে</string>
+
+    <!-- Security Layers -->
+    <string name="security_layers_title">সক্রিয় সুরক্ষা স্তরসমূহ</string>
+    <string name="layer_url_title">URL এবং ফিশিং সুরক্ষা</string>
+    <string name="layer_url_desc">QR কোডে লুকানো ভুয়া লিঙ্ক এবং ক্ষতিকারক ডোমেন সনাক্তকরণ</string>
+    <string name="layer_gnn_title">JA-GNN আর্থিক গ্রাফ বুদ্ধিমত্তা</string>
+    <string name="layer_gnn_desc">মানি-মিউল সিন্ডিকেট এবং অস্বাভাবিক অ্যাকাউন্টের গ্রাফ পরীক্ষা</string>
+    <string name="layer_protocol_title">UPI প্রোটোকল টেম্পার শিল্ড</string>
+    <string name="layer_protocol_desc">রিভার্স-চার্জ কালেক্ট অনুরোধ এবং ভুয়া রিফান্ড স্ক্যাম তাৎক্ষণিক প্রতিরোধ</string>
+
+    <!-- Audit History & Logs -->
+    <string name="recent_scans">সাম্প্রতিক নিরাপত্তা অডিট</string>
+    <string name="filter_all">সব</string>
+    <string name="filter_blocked">ব্লক করা হয়েছে</string>
+    <string name="filter_safe">নিরাপদ</string>
+    <string name="clear_history">ইতিহাস মুছুন</string>
+    <string name="no_audits">এখনও পর্যন্ত কোনো লেনদেন স্ক্যান করা হয়নি।</string>
+
+    <!-- Details -->
+    <string name="payee_name">প্রাপক</string>
+    <string name="payee_upi">UPI আইডি / লিঙ্ক</string>
+    <string name="amount">পরিমাণ</string>
+    <string name="risk_score">ঝুঁকি স্কোর</string>
+    <string name="detected_threats">Explainable AI বিশ্লেষণ</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_instruction">স্ক্যান করার জন্য QR কোডটি ফ্রেমের মধ্যে রাখুন</string>
+    <string name="scanner_flash">ফ্ল্যাশ</string>
+    <string name="scanner_gallery">গ্যালারি</string>
+    <string name="scanner_analyzing">JA-GNN বিশ্লেষণ করছে…</string>
+    <string name="camera_permission_required">QR স্ক্যান করার জন্য ক্যামেরা অনুমতি প্রয়োজন</string>
+    <string name="grant_permission">অনুমতি দিন</string>
+
+    <!-- Settings -->
+    <string name="settings_title">সুরক্ষা সেটিংস</string>
+    <string name="setting_theme">থিম</string>
+    <string name="theme_system">সিস্টেম ডিফল্ট</string>
+    <string name="theme_light">লাইট থিম</string>
+    <string name="theme_dark">ডার্ক থিম</string>
+    <string name="setting_language">অ্যাপ ভাষা</string>
+    <string name="setting_backend_url">FastAPI ব্যাকএন্ড সার্ভার</string>
+    <string name="backend_url_desc">JA-GNN মডেল ইনফারেন্স সার্ভিসের ঠিকানা</string>
+    <string name="btn_save">সংরক্ষণ করুন</string>
+</resources>

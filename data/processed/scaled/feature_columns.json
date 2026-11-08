@@ -1,0 +1,23 @@
+[
+  "amount",
+  "hour",
+  "day_of_week",
+  "sender_account_age_days",
+  "receiver_account_age_days",
+  "merchant_age_days",
+  "sender_transaction_count_to_date",
+  "receiver_transaction_count_to_date",
+  "time_since_previous_sender_tx_sec",
+  "time_since_previous_receiver_tx_sec",
+  "transaction_type_BILL_PAYMENT",
+  "transaction_type_M2P",
+  "transaction_type_P2M",
+  "transaction_type_P2P",
+  "transaction_type_RECHARGE",
+  "transaction_type_TRANSFER",
+  "channel_ATM",
+  "channel_MOBILE_APP",
+  "channel_POS",
+  "channel_UPI",
+  "channel_WEB"
+]

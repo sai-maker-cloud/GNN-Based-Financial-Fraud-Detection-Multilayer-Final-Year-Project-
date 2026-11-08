@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">ఫ్రాడ్‌షీల్డ్ AI</string>
+    <string name="tagline">GNN ఆధారిత ఆర్థిక మోసాలు మరియు QR భద్రతా గేట్‌కీపర్</string>
+
+    <!-- Navigation & Titles -->
+    <string name="nav_home">డ్యాష్‌బోర్డ్</string>
+    <string name="nav_scanner">QR స్కాన్</string>
+    <string name="nav_history">లాగ్‌లు</string>
+    <string name="nav_settings">సెట్టింగ్‌లు</string>
+
+    <!-- Top Bar Quick Actions -->
+    <string name="toggle_theme">డార్క్/లైట్ థీమ్ మార్చండి</string>
+    <string name="toggle_language">భాషను మార్చండి</string>
+
+    <!-- Hero Actions -->
+    <string name="scan_and_protect">కెమెరాతో QR స్కాన్ చేయండి</string>
+    <string name="scan_desc">తక్షణ JA-GNN గ్రాఫ్ మరియు ఫిషింగ్ లింక్ భద్రతా తనిఖీ</string>
+    <string name="paste_payload">పేలోడ్ అతికించండి / పరీక్షించండి</string>
+    <string name="test_sample">నమూనా మోసాన్ని పరీక్షించండి</string>
+
+    <!-- Manual Input & Verification -->
+    <string name="manual_check_title">మాన్యువల్ QR / URL తనిఖీ</string>
+    <string name="manual_check_desc">భద్రతా తనిఖీ కోసం ఏదైనా చెల్లింపు QR, UPI లేదా వెబ్ లింక్‌ను అతికించండి</string>
+    <string name="manual_check_hint">ఉదా. upi://pay?pa=store@upi లేదా https://example.com</string>
+    <string name="btn_check_ai">AI ద్వారా తనిఖీ చేయండి</string>
+    <string name="paste_clipboard">అతికించండి</string>
+    <string name="preset_samples">పరీక్ష నమూనాలు:</string>
+    <string name="preset_safe_url">సురక్షిత URL</string>
+    <string name="preset_payment_url">చెల్లింపు URL (JA-GNN)</string>
+    <string name="preset_safe">సురక్షిత వ్యాపారి</string>
+    <string name="preset_phishing">ఫిషింగ్ లింక్</string>
+    <string name="preset_mule">మ్యూల్ సిండికేట్</string>
+    <string name="preset_collect">కలెక్ట్ మోసం</string>
+
+    <!-- Engine Status Card -->
+    <string name="engine_title">JA-GNN సెక్యూరిటీ ఇంజిన్</string>
+    <string name="engine_connected">AI ఇంజిన్ యాక్టివ్‌గా ఉంది - భద్రత కొనసాగుతోంది</string>
+    <string name="engine_offline">సర్వర్ ఆఫ్‌లైన్‌లో ఉంది</string>
+    <string name="stat_scanned">మొత్తం స్కాన్‌లు</string>
+    <string name="stat_blocked">నిరోధించిన మోసాలు</string>
+    <string name="stat_safe">సురక్షితమైనవి</string>
+
+    <!-- Explainable AI (XAI) Breakdown -->
+    <string name="xai_attribution_title">AI ఇంజిన్ గుర్తింపు వివరాలు</string>
+    <string name="xai_decision_safe">ధృవీకరించబడింది &amp; సురక్షితం</string>
+    <string name="xai_decision_warn">అనుమానాస్పద వ్యత్యాసం</string>
+    <string name="xai_decision_block">ప్రమాదకరమైన మోసం పట్టుబడింది</string>
+
+    <string name="decision_allow_title">లావాదేవీ ధృవీకరించబడింది &amp; సురక్షితం</string>
+    <string name="decision_allow_desc">ఎలాంటి అనుమానాస్పద సంబంధాలు లేదా ఫిషింగ్ ముప్పులు కనుగొనబడలేదు.</string>
+    <string name="decision_url_safe_title">వెబ్ లింక్ ధృవీకరించబడింది &amp; సురక్షితం</string>
+    <string name="decision_url_safe_desc">డొమైన్ ప్రామాణికమైనది మరియు సురక్షితమైనది. ఎటువంటి బెదిరింపులు లేవు.</string>
+    <string name="btn_proceed_to_pay">చెల్లింపు యాప్‌కు వెళ్లండి</string>
+    <string name="btn_open_browser">సురక్షిత లింక్‌ను బ్రౌజర్‌లో తెరవండి</string>
+    <string name="btn_proceed_link_anyway">రిస్క్ అర్థం చేసుకుని కొనసాగించండి</string>
+
+    <string name="decision_warn_title">హెచ్చరిక: అనుమానాస్పద ఖాతా</string>
+    <string name="decision_warn_desc">ఈ ఖాతాలో అసాధారణ లావాదేవీ వేగం లేదా అనుమానాస్పద నెట్‌వర్క్ సంబంధాలు ఉన్నాయి.</string>
+    <string name="btn_proceed_anyway">ప్రమాదాన్ని అర్థం చేసుకుని కొనసాగించండి</string>
+    <string name="btn_cancel_payment">చెల్లింపును రద్దు చేయండి</string>
+
+    <string name="decision_block_title">మోసం గుర్తించబడింది మరియు నిరోధించబడింది</string>
+    <string name="decision_block_desc">మోసం కనుగొనబడింది! మీ భద్రత కోసం చెల్లింపు యాప్‌కు వెళ్లడం నిలిపివేయబడింది.</string>
+    <string name="hard_block_notice">🔒 భద్రతా బ్లాక్: ఆర్థిక నష్టాన్ని నివారించడానికి చెల్లింపు లింక్ నిలిపివేయబడింది.</string>
+    <string name="btn_dismiss">సరే</string>
+
+    <!-- Security Layers -->
+    <string name="security_layers_title">క్రియాశీల భద్రతా స్థాయిలు</string>
+    <string name="layer_url_title">URL మరియు ఫిషింగ్ రక్షణ</string>
+    <string name="layer_url_desc">QR కోడ్‌లో దాచిన నకిలీ లింక్‌లను గుర్తించడం</string>
+    <string name="layer_gnn_title">JA-GNN గ్రాఫ్ మేధస్సు</string>
+    <string name="layer_gnn_desc">మనీ-మ్యూల్ సిండికేట్‌లు మరియు అనుమానాస్పద ఖాతాల సంబంధాల పరిశీలన</string>
+    <string name="layer_protocol_title">UPI ప్రోటోకాల్ ట్యాంపర్ షీల్డ్</string>
+    <string name="layer_protocol_desc">రివర్స్-ఛార్జ్ కలెక్ట్ అభ్యర్థనలు మరియు నకిలీ రీఫండ్‌లను తక్షణమే అడ్డుకోవడం</string>
+
+    <!-- Audit History & Logs -->
+    <string name="recent_scans">ఇటీవలి భద్రతా తనిఖీలు</string>
+    <string name="filter_all">అన్నీ</string>
+    <string name="filter_blocked">నిరోధించినవి</string>
+    <string name="filter_safe">సురక్షితమైనవి</string>
+    <string name="clear_history">చరిత్రను తొలగించండి</string>
+    <string name="no_audits">ఇంతవరకు ఎలాంటి లావాదేవీలు స్కాన్ చేయబడలేదు.</string>
+
+    <!-- Details -->
+    <string name="payee_name">గ్రహీత</string>
+    <string name="payee_upi">UPI చిరునామా / లింక్</string>
+    <string name="amount">మొత్తం</string>
+    <string name="risk_score">ప్రమాద స్కోరు</string>
+    <string name="detected_threats">Explainable AI విశ్లేషణ</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_instruction">QR కోడ్‌ను చట్రంలో అమర్చండి</string>
+    <string name="scanner_flash">ఫ్లాష్</string>
+    <string name="scanner_gallery">గ్యాలరీ</string>
+    <string name="scanner_analyzing">JA-GNN విశ్లేషణ చేస్తోంది…</string>
+    <string name="camera_permission_required">QR స్కాన్ చేయడానికి కెమెరా అనుమతి అవసరం</string>
+    <string name="grant_permission">అనుమతి ఇవ్వండి</string>
+
+    <!-- Settings -->
+    <string name="settings_title">భద్రతా సెట్టింగ్‌లు</string>
+    <string name="setting_theme">థీమ్</string>
+    <string name="theme_system">సిస్టమ్ డిఫాల్ట్</string>
+    <string name="theme_light">లైట్ థీమ్</string>
+    <string name="theme_dark">డార్క్ థీమ్</string>
+    <string name="setting_language">యాప్ భాష</string>
+    <string name="setting_backend_url">FastAPI సర్వర్ URL</string>
+    <string name="backend_url_desc">JA-GNN మోడల్ ఇన్ఫరెన్స్ సర్వీస్ URL</string>
+    <string name="btn_save">సేవ్ చేయండి</string>
+</resources>

@@ -1,0 +1,38 @@
+========== URL PHISHING & QUISHING MODEL EVALUATION REPORT ==========
+Checkpoint: results/checkpoints/url_phishing_model.joblib
+Dataset: 70,000 samples (35,000 Authentic Phishing + 35,000 Curated Legitimate)
+Split: 80% Train (56,000 samples) | 20% Unseen Test (14,000 samples)
+Model Type: Random Forest Ensemble (100 estimators, max_depth=15, balanced weights)
+
+Performance Metrics (Evaluated on 14,000 Unseen Test Samples):
+Metric                   | Value         | Description
+-----------------------------------------------------------------------------------------------
+ROC-AUC                  | 99.86% (0.9986) | Discriminative ranking capability
+Overall Accuracy         | 98.50% (0.9850) | Total correct predictions
+Phishing Precision       | 99.90% (0.9990) | Fraction of flagged URLs that are true phishing (near-zero false positives)
+Phishing Recall          | 97.10% (0.9710) | Fraction of actual phishing attacks intercepted
+F1-Score                 | 98.48% (0.9848) | Harmonic mean of Precision and Recall
+
+Confusion Matrix (14,000 Unseen Test Samples):
+[[6993     7]   <- [True Legitimate,  False Phishing]
+ [ 203  6797]]  <- [False Legitimate, True Phishing]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+  Legitimate       0.97      1.00      0.99      7000
+    Phishing       1.00      0.97      0.98      7000
+
+    accuracy                           0.98     14000
+   macro avg       0.99      0.98      0.98     14000
+weighted avg       0.99      0.98      0.98     14000
+
+Top Feature Importances:
+  1. domain_length            18.40%
+  2. url_length               11.84%
+  3. count_dots               11.77%
+  4. path_length              11.70%
+  5. count_hyphens            11.68%
+  6. count_subdomains          7.44%
+  7. shannon_entropy           5.37%
+  8. count_slash               4.96%

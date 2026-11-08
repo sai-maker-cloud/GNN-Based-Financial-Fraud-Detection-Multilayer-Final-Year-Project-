@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">फ्रॉडशील्ड AI</string>
+    <string name="tagline">GNN-सक्षम आर्थिक फसवणूक आणि QR सुरक्षा गेटकीपर</string>
+
+    <!-- Navigation & Titles -->
+    <string name="nav_home">डॅशबोर्ड</string>
+    <string name="nav_scanner">QR स्कॅन करा</string>
+    <string name="nav_history">ऑडिट नोंदी</string>
+    <string name="nav_settings">सेटिंग्ज</string>
+
+    <!-- Top Bar Quick Actions -->
+    <string name="toggle_theme">डार्क/लाइट मोड बदला</string>
+    <string name="toggle_language">भाषा बदला</string>
+
+    <!-- Hero Actions -->
+    <string name="scan_and_protect">कॅमेऱ्याने QR स्कॅन करा</string>
+    <string name="scan_desc">त्वरित JA-GNN आलेख आणि फिशिंग लिंक सुरक्षा तपासणी</string>
+    <string name="paste_payload">पेलोड पेस्ट / टेस्ट करा</string>
+    <string name="test_sample">नमुना फसवणूक तपासा</string>
+
+    <!-- Manual Input & Verification -->
+    <string name="manual_check_title">मॅन्युअल QR / URL तपासणी</string>
+    <string name="manual_check_desc">सुरक्षा तपासणीसाठी कोणताही पेमेंट QR, UPI किंवा वेब लिंक पेस्ट करा</string>
+    <string name="manual_check_hint">उदा. upi://pay?pa=store@upi किंवा https://example.com</string>
+    <string name="btn_check_ai">AI द्वारे तपासा</string>
+    <string name="paste_clipboard">पेस्ट</string>
+    <string name="preset_samples">चाचणी नमुने:</string>
+    <string name="preset_safe_url">सुरक्षित URL</string>
+    <string name="preset_payment_url">पेमेंट URL (JA-GNN)</string>
+    <string name="preset_safe">सुरक्षित व्यापारी</string>
+    <string name="preset_phishing">फिशिंग लिंक</string>
+    <string name="preset_mule">म्युल सिंडिकेट</string>
+    <string name="preset_collect">कलेक्ट घोटाळा</string>
+
+    <!-- Engine Status Card -->
+    <string name="engine_title">JA-GNN सुरक्षा इंजिन</string>
+    <string name="engine_connected">AI इंजिन सक्रिय आणि संरक्षण सुरू आहे</string>
+    <string name="engine_offline">बॅकएंड ऑफलाइन - स्थानिक शील्ड सक्रिय</string>
+    <string name="stat_scanned">एकूण स्कॅन्स</string>
+    <string name="stat_blocked">फसवणूक रोखली</string>
+    <string name="stat_safe">सुरक्षित आढळले</string>
+
+    <!-- Explainable AI (XAI) Breakdown -->
+    <string name="xai_attribution_title">AI इंजिन ओळख तपशील</string>
+    <string name="xai_decision_safe">सत्यापित आणि सुरक्षित</string>
+    <string name="xai_decision_warn">संशयास्पद विसंगती</string>
+    <string name="xai_decision_block">धोकादायक फसवणूक उघडकीस</string>
+
+    <string name="decision_allow_title">व्यवहार सत्यापित आणि सुरक्षित</string>
+    <string name="decision_allow_desc">कोणताही संशयास्पद आलेख संबंध, मनी-म्युल किंवा फिशिंग धोका आढळला नाही.</string>
+    <string name="decision_url_safe_title">वेब लिंक पडताळलेली आणि सुरक्षित</string>
+    <string name="decision_url_safe_desc">डोमेन अधिकृत आणि सुरक्षित आहे. कोणतीही फसवणूक आढळली नाही.</string>
+    <string name="btn_proceed_to_pay">पेमेंट अ‍ॅप उघडा</string>
+    <string name="btn_open_browser">सुरक्षित लिंक ब्राउझरमध्ये उघडा</string>
+    <string name="btn_proceed_link_anyway">जोखीम समजून पुढे जा</string>
+
+    <string name="decision_warn_title">सावधान: संशयास्पद खाते</string>
+    <string name="decision_warn_desc">या खात्यामध्ये असामान्य व्यवहार गती किंवा संशयास्पद नेटवर्क संबंध आढळले आहेत.</string>
+    <string name="btn_proceed_anyway">धोका समजून पुढे जा</string>
+    <string name="btn_cancel_payment">व्यवहार रद्द करा</string>
+
+    <string name="decision_block_title">फसवणूक आढळली आणि रोखली गेली</string>
+    <string name="decision_block_desc">गंभीर फसवणूक आढळली! आपल्या सुरक्षेसाठी री-डायरेक्शन बंद केले आहे.</string>
+    <string name="hard_block_notice">🔒 हार्ड ब्लॉक: आपल्या आर्थिक सुरक्षेसाठी पेमेंट गेटवे री-डायरेक्शन ब्लॉक केले आहे.</string>
+    <string name="btn_dismiss">अलर्ट बंद करा</string>
+
+    <!-- Security Layers -->
+    <string name="security_layers_title">सक्रिय संरक्षण स्तर</string>
+    <string name="layer_url_title">URL आणि क्विशिंग परिमिती संरक्षण</string>
+    <string name="layer_url_desc">QR मधील बनावट फिशिंग लिंक्स आणि दुर्भावनापूर्ण डोमेन शोधणे</string>
+    <string name="layer_gnn_title">JA-GNN आर्थिक आलेख बुद्धिमत्ता</string>
+    <string name="layer_gnn_desc">मनी-म्युल टोळी आणि संशयास्पद खात्यांची सखोल 2-हॉप आलेख संबंध तपासणी</string>
+    <string name="layer_protocol_title">UPI प्रोटोकॉल छेडछाड शील्ड</string>
+    <string name="layer_protocol_desc">रिव्हर्स-चार्ज कलेक्ट विनंती आणि बनावट परतावा फसवणूक तात्काळ रोखणे</string>
+
+    <!-- Audit History & Logs -->
+    <string name="recent_scans">अलीकडील व्यवहार सुरक्षा तपासण्या</string>
+    <string name="filter_all">सर्व</string>
+    <string name="filter_blocked">रोखलेले</string>
+    <string name="filter_safe">सुरक्षित</string>
+    <string name="clear_history">इतिहास साफ करा</string>
+    <string name="no_audits">अद्याप कोणताही व्यवहार स्कॅन केलेला नाही. तपासण्यासाठी QR स्कॅन करा किंवा वर लिंक टाका.</string>
+
+    <!-- Details -->
+    <string name="payee_name">प्राप्तकर्ता</string>
+    <string name="payee_upi">UPI आयडी / लिंक</string>
+    <string name="amount">रक्कम</string>
+    <string name="risk_score">धोका स्कोअर</string>
+    <string name="detected_threats">Explainable AI विश्लेषण</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_instruction">स्कॅन करण्यासाठी QR कोड चौकटीत ठेवा</string>
+    <string name="scanner_flash">फ्लॅश</string>
+    <string name="scanner_gallery">गॅलरी</string>
+    <string name="scanner_analyzing">JA-GNN आलेख आणि सुरक्षा विश्लेषण सुरू आहे…</string>
+    <string name="camera_permission_required">QR स्कॅन करण्यासाठी कॅमेरा परवानगी आवश्यक आहे</string>
+    <string name="grant_permission">कॅमेरा परवानगी द्या</string>
+
+    <!-- Settings -->
+    <string name="settings_title">सुरक्षा सेटिंग्ज</string>
+    <string name="setting_theme">थीम</string>
+    <string name="theme_system">सिस्टम डीफॉल्ट</string>
+    <string name="theme_light">लाइट थीम</string>
+    <string name="theme_dark">डार्क थीम</string>
+    <string name="setting_language">अ‍ॅप भाषा</string>
+    <string name="setting_backend_url">FastAPI बॅकएंड सर्व्हर</string>
+    <string name="backend_url_desc">JA-GNN मॉडेल इन्फरन्स मायक्रो-सर्व्हिसचा पत्ता</string>
+    <string name="btn_save">बदल जतन करा</string>
+</resources>

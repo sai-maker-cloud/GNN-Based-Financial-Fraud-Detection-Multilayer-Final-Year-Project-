@@ -1,0 +1,56 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Data Exclusions (Datasets > 50MB exceeding GitHub limits)
+data/raw/
+data/synthetic_backup/
+data/graphs/
+data/processed/*.csv
+data/processed/**/*.csv
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# Explicitly keep essential data & intelligence assets
+!data/threat_intel/
+!data/threat_intel/threat_blacklist.json
+!data/processed/feature_columns.json
+!data/processed/scaled/scaler.pkl
+
+# Model Checkpoints (Keep weights!)
+!results/checkpoints/best_ja_gnn_custom.pt
+!results/checkpoints/best_ja_gnn_custom_synthetic.pt
+!results/checkpoints/url_phishing_model.joblib
+
+# Android Build & IDE files
+.gradle/
+build/
+android/.gradle/
+android/build/
+android/app/build/
+android/**/build/
+android/**/.cxx/
+android/local.properties
+android/.idea/
+*.apk
+*.aab
+
+# General IDE & System files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

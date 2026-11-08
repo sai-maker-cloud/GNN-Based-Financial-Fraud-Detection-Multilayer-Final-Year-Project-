@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">फ़्रॉडशील्ड AI</string>
+    <string name="tagline">GNN-संचालित वित्तीय धोखाधड़ी और QR सुरक्षा गेटकीपर</string>
+
+    <!-- Navigation & Titles -->
+    <string name="nav_home">डैशबोर्ड</string>
+    <string name="nav_scanner">QR स्कैन करें</string>
+    <string name="nav_history">ऑडिट इतिहास</string>
+    <string name="nav_settings">सेटिंग्स</string>
+
+    <!-- Top Bar Quick Actions -->
+    <string name="toggle_theme">डार्क/लाइट थीम बदलें</string>
+    <string name="toggle_language">भाषा बदलें</string>
+
+    <!-- Hero Actions -->
+    <string name="scan_and_protect">कैमरे से QR स्कैन करें</string>
+    <string name="scan_desc">त्वरित JA-GNN ग्राफ़ और फ़िशिंग लिंक सुरक्षा जाँच</string>
+
+    <!-- Manual Input & Verification -->
+    <string name="manual_check_title">मैन्युअल QR / URL जाँच</string>
+    <string name="manual_check_desc">सुरक्षा जाँच के लिए कोई भी भुगतान QR, UPI या वेब लिंक पेस्ट करें</string>
+    <string name="manual_check_hint">उदा. upi://pay?pa=store@upi या https://example.com</string>
+    <string name="btn_check_ai">AI द्वारा जाँच करें</string>
+    <string name="paste_clipboard">पेस्ट</string>
+    <string name="preset_samples">परीक्षण नमूने:</string>
+    <string name="preset_safe_url">सुरक्षित URL</string>
+    <string name="preset_payment_url">भुगतान URL (JA-GNN)</string>
+    <string name="preset_safe">सुरक्षित व्यापारी</string>
+    <string name="preset_phishing">फ़िशिंग लिंक</string>
+    <string name="preset_mule">म्यूल सिंडिकेट</string>
+    <string name="preset_collect">कलेक्ट धोखाधड़ी</string>
+
+    <!-- Engine Status Card -->
+    <string name="engine_title">JA-GNN सुरक्षा इंजन</string>
+    <string name="engine_connected">AI इंजन सक्रिय और सुरक्षा चालू है</string>
+    <string name="engine_offline">बैकएंड ऑफ़लाइन - स्थानीय शील्ड सक्रिय</string>
+    <string name="stat_scanned">कुल स्कैन</string>
+    <string name="stat_blocked">धोखाधड़ी रोकी गई</string>
+    <string name="stat_safe">सुरक्षित पाए गए</string>
+
+    <!-- Explainable AI (XAI) Breakdown -->
+    <string name="xai_attribution_title">AI इंजन पहचान विवरण</string>
+    <string name="xai_decision_safe">सत्यापित एवं सुरक्षित</string>
+    <string name="xai_decision_warn">संदिग्ध विसंगति</string>
+    <string name="xai_decision_block">गंभीर धोखाधड़ी पकड़ी गई</string>
+
+    <string name="decision_allow_title">भुगतान सत्यापित और सुरक्षित</string>
+    <string name="decision_allow_desc">कोई संदिग्ध ग्राफ़ संबंध, म्यूल खाता या फ़िशिंग विसंगति नहीं मिली।</string>
+    <string name="decision_url_safe_title">वेब लिंक सत्यापित और सुरक्षित</string>
+    <string name="decision_url_safe_desc">डोमेन प्रामाणिक और स्वच्छ है। कोई फ़िशिंग या मैलवेयर नहीं मिला।</string>
+    <string name="btn_proceed_to_pay">पेमेंट ऐप पर जाएं</string>
+    <string name="btn_open_browser">सुरक्षित लिंक ब्राउज़र में खोलें</string>
+    <string name="btn_proceed_link_anyway">जोखिम समझकर लिंक खोलें</string>
+
+    <string name="decision_warn_title">सावधानी: संदिग्ध खाता</string>
+    <string name="decision_warn_desc">इस प्राप्तकर्ता खाते में असामान्य गति या संदिग्ध नेटवर्क संबंध पाए गए हैं।</string>
+    <string name="btn_proceed_anyway">जोखिम समझकर आगे बढ़ें</string>
+    <string name="btn_cancel_payment">भुगतान रद्द करें</string>
+
+    <string name="decision_block_title">धोखाधड़ी रोकी गई और हार्ड ब्लॉक की गई</string>
+    <string name="decision_block_desc">गंभीर धोखाधड़ी पकड़ी गई! आपकी सुरक्षा के लिए री-डायरेक्शन बंद कर दिया गया है।</string>
+    <string name="hard_block_notice">🔒 हार्ड ब्लॉक: आपकी वित्तीय सुरक्षा के लिए पेमेंट गेटवे री-डायरेक्शन बंद है।</string>
+    <string name="btn_dismiss">अलर्ट बंद करें</string>
+
+    <!-- Security Layers -->
+    <string name="security_layers_title">सक्रिय AI सुरक्षा स्तर</string>
+    <string name="layer_url_title">URL और क्विशिंग परिधि सुरक्षा</string>
+    <string name="layer_url_desc">QR में छिपे नकली फ़िशिंग लिंक और दुर्भावनापूर्ण डोमेन की पहचान</string>
+    <string name="layer_gnn_title">JA-GNN वित्तीय ग्राफ़ बुद्धिमत्ता</string>
+    <string name="layer_gnn_desc">मनी-म्यूल सिंडिकेट और असामान्य खातों की 2-हॉप ग्राफ़ संबंध जाँच</string>
+    <string name="layer_protocol_title">UPI प्रोटोकॉल छेड़छाड़ शील्ड</string>
+    <string name="layer_protocol_desc">रिवर्स-चार्ज कलेक्ट अनुरोध और नकली रिफ़ंड घोटालों को तुरंत रोकना</string>
+
+    <!-- Audit History & Logs -->
+    <string name="recent_scans">हालिया लेनदेन सुरक्षा जाँच</string>
+    <string name="filter_all">सभी</string>
+    <string name="filter_blocked">रोके गए</string>
+    <string name="filter_safe">सुरक्षित</string>
+    <string name="clear_history">इतिहास साफ़ करें</string>
+    <string name="no_audits">अभी तक कोई लेनदेन स्कैन नहीं हुआ। ऊपर QR स्कैन करें या लिंक पेस्ट करें।</string>
+
+    <!-- Details -->
+    <string name="payee_name">प्राप्तकर्ता</string>
+    <string name="payee_upi">UPI आईडी / लिंक</string>
+    <string name="amount">राशि</string>
+    <string name="risk_score">जोखिम स्कोर</string>
+    <string name="detected_threats">Explainable AI विश्लेषण</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_instruction">स्कैन करने के लिए QR कोड को फ़्रेम के अंदर रखें</string>
+    <string name="scanner_flash">फ़्लैश</string>
+    <string name="scanner_gallery">गैलरी</string>
+    <string name="scanner_analyzing">JA-GNN ग्राफ़ और ख़तरा विश्लेषण जारी है…</string>
+    <string name="camera_permission_required">QR कोड स्कैन करने के लिए कैमरा अनुमति आवश्यक है</string>
+    <string name="grant_permission">कैमरा अनुमति दें</string>
+
+    <!-- Settings -->
+    <string name="settings_title">सुरक्षा सेटिंग्स</string>
+    <string name="setting_theme">थीम</string>
+    <string name="theme_system">सिस्टम डिफ़ॉल्ट</string>
+    <string name="theme_light">लाइट थीम</string>
+    <string name="theme_dark">डार्क थीम</string>
+    <string name="setting_language">ऐप भाषा</string>
+    <string name="setting_backend_url">FastAPI बैकएंड सर्वर</string>
+    <string name="backend_url_desc">JA-GNN मॉडल इंफ़रेंस माइक्रो-सर्विस का URL</string>
+    <string name="btn_save">परिवर्तन सहेजें</string>
+</resources>

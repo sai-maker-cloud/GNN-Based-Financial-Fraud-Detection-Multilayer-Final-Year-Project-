@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">ஃப்ராட்ஷீல்ட் AI</string>
+    <string name="tagline">GNN நிதி மோசடி மற்றும் QR பாதுகாப்பு நுழைவாயில்</string>
+
+    <!-- Navigation & Titles -->
+    <string name="nav_home">முகப்பு</string>
+    <string name="nav_scanner">QR ஸ்கேன்</string>
+    <string name="nav_history">பதிவுகள்</string>
+    <string name="nav_settings">அமைப்புகள்</string>
+
+    <!-- Top Bar Quick Actions -->
+    <string name="toggle_theme">கருப்பு/வெள்ளை தீம் மாற்று</string>
+    <string name="toggle_language">மொழியை மாற்று</string>
+
+    <!-- Hero Actions -->
+    <string name="scan_and_protect">கேமராவில் QR ஸ்கேன் செய்</string>
+    <string name="scan_desc">உடனடி JA-GNN வரைபட மற்றும் ஃபிஷிங் இணைப்பு பாதுகாப்பு சோதனை</string>
+    <string name="paste_payload">தகவலை உள்ளிடவும் / சோதிக்கவும்</string>
+    <string name="test_sample">மாதிரி மோசடியை சோதிக்கவும்</string>
+
+    <!-- Manual Input & Verification -->
+    <string name="manual_check_title">நேரடி QR / URL சரிபார்ப்பு</string>
+    <string name="manual_check_desc">பாதுகாப்பு சோதனைக்கு ஏதேனும் கட்டண QR, UPI அல்லது இணையதள இணைப்பை உள்ளிடவும்</string>
+    <string name="manual_check_hint">எ.கா. upi://pay?pa=store@upi அல்லது https://example.com</string>
+    <string name="btn_check_ai">AI மூலம் சோதி</string>
+    <string name="paste_clipboard">ஒட்டு</string>
+    <string name="preset_samples">மாதிரி சோதனைகள்:</string>
+    <string name="preset_safe_url">பாதுகாப்பான URL</string>
+    <string name="preset_payment_url">கட்டண URL (JA-GNN)</string>
+    <string name="preset_safe">பாதுகாப்பான கடை</string>
+    <string name="preset_phishing">ஃபிஷிங் இணைப்பு</string>
+    <string name="preset_mule">மோசடி கணக்கு</string>
+    <string name="preset_collect">பணம் பறிக்கும் மோசடி</string>
+
+    <!-- Engine Status Card -->
+    <string name="engine_title">JA-GNN பாதுகாப்பு எஞ்சின்</string>
+    <string name="engine_connected">AI எஞ்சின் இணைக்கப்பட்டுள்ளது - பாதுகாப்பு நேரலையில் உள்ளது</string>
+    <string name="engine_offline">சேவையகம் ஆஃப்லைனில் உள்ளது</string>
+    <string name="stat_scanned">மொத்த ஸ்கேன்கள்</string>
+    <string name="stat_blocked">தடுக்கப்பட்ட மோசடிகள்</string>
+    <string name="stat_safe">பாதுகாப்பானவை</string>
+
+    <!-- Explainable AI (XAI) Breakdown -->
+    <string name="xai_attribution_title">AI எஞ்சின் விவரக்குறிப்பு</string>
+    <string name="xai_decision_safe">சரிபார்க்கப்பட்டு பாதுகாப்பானது</string>
+    <string name="xai_decision_warn">சந்தேகத்திற்கிடமான முரண்பாடு</string>
+    <string name="xai_decision_block">அபாயகரமான மோசடி தடுக்கப்பட்டது</string>
+
+    <string name="decision_allow_title">பரிவர்த்தனை சரிபார்க்கப்பட்டது &amp; பாதுகாப்பானது</string>
+    <string name="decision_allow_desc">எந்தவொரு சந்தேகத்திற்கிடமான நெட்வொர்க் தொடர்புகளோ அல்லது ஃபிஷிங் அச்சுறுத்தல்களோ இல்லை.</string>
+    <string name="decision_url_safe_title">இணைப்பு சரிபார்க்கப்பட்டது &amp; பாதுகாப்பானது</string>
+    <string name="decision_url_safe_desc">டொமைன் உண்மையானது மற்றும் சுத்தமானது. அச்சுறுத்தல்கள் இல்லை.</string>
+    <string name="btn_proceed_to_pay">கட்டண செயலியை திறக்கவும்</string>
+    <string name="btn_open_browser">பாதுகாப்பான இணைப்பை உலாவியில் திற</string>
+    <string name="btn_proceed_link_anyway">அபாயத்தை உணர்ந்து தொடரவும்</string>
+
+    <string name="decision_warn_title">எச்சரிக்கை: சந்தேகத்திற்கிடமான கணக்கு</string>
+    <string name="decision_warn_desc">இந்த கணக்கில் வழக்கத்திற்கு மாறான பரிவர்த்தனை வேகம் அல்லது சந்தேகத்திற்கிடமான தொடர்புகள் உள்ளன.</string>
+    <string name="btn_proceed_anyway">ஆபத்தைப் புரிந்து கொண்டு தொடரவும்</string>
+    <string name="btn_cancel_payment">கட்டணத்தை ரத்து செய்</string>
+
+    <string name="decision_block_title">மோசடி கண்டறியப்பட்டு தடுக்கப்பட்டது</string>
+    <string name="decision_block_desc">மோசடி கண்டறியப்பட்டது! உங்கள் பாதுகாப்பிற்காக கட்டண செயலிக்கு செல்வது தடுக்கப்பட்டுள்ளது.</string>
+    <string name="hard_block_notice">🔒 பாதுகாப்புத் தடை: நிதி இழப்பைத் தடுக்க கட்டண இணைப்பு முடக்கப்பட்டுள்ளது.</string>
+    <string name="btn_dismiss">சரி</string>
+
+    <!-- Security Layers -->
+    <string name="security_layers_title">செயலில் உள்ள பாதுகாப்பு நிலைகள்</string>
+    <string name="layer_url_title">URL மற்றும் ஃபிஷிங் பாதுகாப்பு</string>
+    <string name="layer_url_desc">QR குறியீட்டில் மறைக்கப்பட்ட போலி இணைப்புகளைக் கண்டறிதல்</string>
+    <string name="layer_gnn_title">JA-GNN வரைபட நுண்ணறிவு</string>
+    <string name="layer_gnn_desc">மோசடி நெட்வொர்க்குகள் மற்றும் போலி கணக்குகளை ஆராயும் வரைபட ஆய்வு</string>
+    <string name="layer_protocol_title">UPI நெறிமுறை சேதமடைதல் பாதுகாப்பு</string>
+    <string name="layer_protocol_desc">கட்டணக் கோரிக்கைகள் மற்றும் போலி பணத்திருப்பங்களை உடனுக்குடன் தடுத்தல்</string>
+
+    <!-- Audit History & Logs -->
+    <string name="recent_scans">சமீபத்திய பாதுகாப்பு பதிவுகள்</string>
+    <string name="filter_all">அனைத்தும்</string>
+    <string name="filter_blocked">தடுக்கப்பட்டவை</string>
+    <string name="filter_safe">பாதுகாப்பானவை</string>
+    <string name="clear_history">வரலாற்றை அழி</string>
+    <string name="no_audits">இதுவரை எந்த பரிவர்த்தனைகளும் ஸ்கேன் செய்யப்படவில்லை.</string>
+
+    <!-- Details -->
+    <string name="payee_name">பெறுநர்</string>
+    <string name="payee_upi">UPI முகவரி / இணைப்பு</string>
+    <string name="amount">தொகை</string>
+    <string name="risk_score">ஆபத்து மதிப்பீடு</string>
+    <string name="detected_threats">Explainable AI விளக்கம்</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_instruction">QR குறியீட்டை சட்டத்திற்குள் நேராக வைக்கவும்</string>
+    <string name="scanner_flash">ஒளிரூட்டி</string>
+    <string name="scanner_gallery">கேலரி</string>
+    <string name="scanner_analyzing">JA-GNN நுண்ணறிவு ஆய்வு செய்கிறது…</string>
+    <string name="camera_permission_required">QR ஐ ஸ்கேன் செய்ய கேமரா அனுமதி தேவை</string>
+    <string name="grant_permission">அனுமதி அளிக்கவும்</string>
+
+    <!-- Settings -->
+    <string name="settings_title">பாதுகாப்பு அமைப்புகள்</string>
+    <string name="setting_theme">தோற்றம்</string>
+    <string name="theme_system">கணினி இயல்புநிலை</string>
+    <string name="theme_light">வெளிர் நிறம்</string>
+    <string name="theme_dark">கருப்பு நிறம்</string>
+    <string name="setting_language">செயலி மொழி</string>
+    <string name="setting_backend_url">FastAPI சர்வர் முகவரி</string>
+    <string name="backend_url_desc">JA-GNN மாதிரி ஆய்வு சேவை முகவரி</string>
+    <string name="btn_save">சேமிக்கவும்</string>
+</resources>

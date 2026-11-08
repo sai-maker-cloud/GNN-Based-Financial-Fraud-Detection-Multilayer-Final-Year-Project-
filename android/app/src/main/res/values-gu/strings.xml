@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">ફ્રોડશીલ્ડ AI</string>
+    <string name="tagline">GNN-સંચાલિત નાણાકીય છેતરપિંડી અને QR સુરક્ષા ગેટકીપર</string>
+
+    <!-- Navigation & Titles -->
+    <string name="nav_home">ડેશબોર્ડ</string>
+    <string name="nav_scanner">QR સ્કેન કરો</string>
+    <string name="nav_history">ઓડિટ ઇતિહાસ</string>
+    <string name="nav_settings">સેટિંગ્સ</string>
+
+    <!-- Top Bar Quick Actions -->
+    <string name="toggle_theme">ડાર્ક/લાઇટ મોડ બદલો</string>
+    <string name="toggle_language">ભાષા બદલો</string>
+
+    <!-- Hero Actions -->
+    <string name="scan_and_protect">કેમેરા વડે QR સ્કેન કરો</string>
+    <string name="scan_desc">ત્વરિત JA-GNN ગ્રાફ અને ફિશિંગ લિંક સુરક્ષા તપાસ</string>
+    <string name="paste_payload">પેલોડ પેસ્ટ / ટેસ્ટ કરો</string>
+    <string name="test_sample">નમૂના છેતરપિંડી ટેસ્ટ કરો</string>
+
+    <!-- Manual Input & Verification -->
+    <string name="manual_check_title">મેન્યુઅલ QR / URL ચકાસણી</string>
+    <string name="manual_check_desc">સુરક્ષા તપાસ માટે કોઈપણ ચુકવણી QR, UPI અથવા વેબ લિંક પેસ્ટ કરો</string>
+    <string name="manual_check_hint">દા.ત. upi://pay?pa=store@upi અથવા https://example.com</string>
+    <string name="btn_check_ai">AI વડે તપાસો</string>
+    <string name="paste_clipboard">પેસ્ટ</string>
+    <string name="preset_samples">પરીક્ષણ નમૂના:</string>
+    <string name="preset_safe_url">સુરક્ષિત URL</string>
+    <string name="preset_payment_url">ચૂકવણી URL (JA-GNN)</string>
+    <string name="preset_safe">સલામત વેપારી</string>
+    <string name="preset_phishing">ફિશિંગ લિંક</string>
+    <string name="preset_mule">મ્યુલ સિન્ડિકેટ</string>
+    <string name="preset_collect">કલેક્ટ છેતરપિંડી</string>
+
+    <!-- Engine Status Card -->
+    <string name="engine_title">JA-GNN સુરક્ષા એન્જિન</string>
+    <string name="engine_connected">AI એન્જિન સક્રિય અને સુરક્ષા ચાલુ છે</string>
+    <string name="engine_offline">બેકએન્ડ ઑફલાઇન - સ્થાનિક શિલ્ડ સક્રિય</string>
+    <string name="stat_scanned">કુલ સ્કેન</string>
+    <string name="stat_blocked">છેતરપિંડી અટકાવી</string>
+    <string name="stat_safe">સલામત મળ્યા</string>
+
+    <!-- Explainable AI (XAI) Breakdown -->
+    <string name="xai_attribution_title">AI એન્જિન વિશ્લેષણ ઓળખ</string>
+    <string name="xai_decision_safe">ચકાસાયેલ અને સલામત</string>
+    <string name="xai_decision_warn">શંકાસ્પદ વિસંગતતા</string>
+    <string name="xai_decision_block">ગંભીર છેતરપિંડી પકડાઈ</string>
+
+    <string name="decision_allow_title">વ્યવહાર ચકાસાયેલ અને સલામત</string>
+    <string name="decision_allow_desc">કોઈપણ શંકાસ્પદ ગ્રાફ સંબંધ, મની-મ્યુલ કે ફિશિંગ જોખમ મળ્યું નથી.</string>
+    <string name="decision_url_safe_title">વેબ લિંક ચકાસાયેલ અને સુરક્ષિત</string>
+    <string name="decision_url_safe_desc">ડોમેન અધિકૃત અને સ્વચ્છ છે. કોઈ ફિશિંગ કે માલવેર મળ્યું નથી.</string>
+    <string name="btn_proceed_to_pay">પેમેન્ટ ઍપ પર જાઓ</string>
+    <string name="btn_open_browser">સુરક્ષિત લિંક બ્રાઉઝરમાં ખોલો</string>
+    <string name="btn_proceed_link_anyway">જોખમ સમજીને લિંક ખોલો</string>
+
+    <string name="decision_warn_title">સાવધાન: શંકાસ્પદ ખાતું</string>
+    <string name="decision_warn_desc">આ પ્રાપ્તકર્તા ખાતામાં અસામાન્ય ઝડપ અથવા શંકાસ્પદ નેટવર્ક સંબંધો મળ્યા છે.</string>
+    <string name="btn_proceed_anyway">જોખમ સમજી આગળ વધો</string>
+    <string name="btn_cancel_payment">ચુકવણી રદ કરો</string>
+
+    <string name="decision_block_title">છેતરપિંડી પકડાઈ અને બ્લૉક કરવામાં આવી</string>
+    <string name="decision_block_desc">ગંભીર છેતરપિંડી મળી! તમારી સુરક્ષા માટે રી-ડાયરેક્શન બંધ કરવામાં આવ્યું છે.</string>
+    <string name="hard_block_notice">🔒 હાર્ડ બ્લૉક: તમારી નાણાકીય સુરક્ષા માટે પેમેન્ટ ગેટવે રી-ડાયરેક્શન બ્લૉક છે.</string>
+    <string name="btn_dismiss">અલર્ટ બંધ કરો</string>
+
+    <!-- Security Layers -->
+    <string name="security_layers_title">સક્રિય સુરક્ષા સ્તરો</string>
+    <string name="layer_url_title">URL અને ક્વિશિંગ પરિમિતિ સુરક્ષા</string>
+    <string name="layer_url_desc">QR માં છુપાયેલ નકલી ફિશિંગ લિંક્સ અને જોખમી ડોમેન્સ શોધવા</string>
+    <string name="layer_gnn_title">JA-GNN નાણાકીય ગ્રાફ બુદ્ધિમત્તા</string>
+    <string name="layer_gnn_desc">મની-મ્યુલ સિન્ડિકેટ અને અસામાન્ય ખાતાઓની ઊંડી 2-હોપ ગ્રાફ સંબંધ તપાસ</string>
+    <string name="layer_protocol_title">UPI પ્રોટોકોલ છેડછાડ શિલ્ડ</string>
+    <string name="layer_protocol_desc">રિવર્સ-ચાર્જ કલેક્ટ વિનંતી અને નકલી રિફંડ છેતરપિંડી અટકાવવી</string>
+
+    <!-- Audit History & Logs -->
+    <string name="recent_scans">તાજેતરના વ્યવહાર સુરક્ષા તપાસ</string>
+    <string name="filter_all">બધા</string>
+    <string name="filter_blocked">અટકાવેલા</string>
+    <string name="filter_safe">સલામત</string>
+    <string name="clear_history">ઇતિહાસ સાફ કરો</string>
+    <string name="no_audits">હજી સુધી કોઈ વ્યવહાર સ્કેન થયેલ નથી. ટેસ્ટ કરવા QR સ્કેન કરો અથવા ઉપર લિંક દાખલ કરો.</string>
+
+    <!-- Details -->
+    <string name="payee_name">પ્રાપ્તકર્તા</string>
+    <string name="payee_upi">UPI આઈડી / લિંક</string>
+    <string name="amount">રકમ</string>
+    <string name="risk_score">જોખમ સ્કોર</string>
+    <string name="detected_threats">Explainable AI વિશ્લેષણ</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_instruction">સ્કેન કરવા માટે QR કોડને ફ્રેમમાં રાખો</string>
+    <string name="scanner_flash">ફ્લેશ</string>
+    <string name="scanner_gallery">ગેલેરી</string>
+    <string name="scanner_analyzing">JA-GNN ગ્રાફ અને સુરક્ષા વિશ્લેષણ ચાલુ છે…</string>
+    <string name="camera_permission_required">QR સ્કેન કરવા માટે કેમેરા પરવાનગી જરૂરી છે</string>
+    <string name="grant_permission">કેમેરા પરવાનગી આપો</string>
+
+    <!-- Settings -->
+    <string name="settings_title">સુરક્ષા સેટિંગ્સ</string>
+    <string name="setting_theme">થીમ</string>
+    <string name="theme_system">સિસ્ટમ ડિફૉલ્ટ</string>
+    <string name="theme_light">લાઇટ થીમ</string>
+    <string name="theme_dark">ડાર્ક થીમ</string>
+    <string name="setting_language">ઍપ ભાષા</string>
+    <string name="setting_backend_url">FastAPI બેકએન્ડ સર્વર</string>
+    <string name="backend_url_desc">JA-GNN મોડલ ઇન્ફરન્સ માઇક્રો-સર્વિસનું સરનામું</string>
+    <string name="btn_save">ફેરફારો સાચવો</string>
+</resources>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FraudShield AI — Live QR & Fraud Test Dashboard</title>
+    <style>
+        :root {
+            --primary: #1A73E8;
+            --success: #1E8E3E;
+            --warning: #F9AB00;
+            --danger: #D93025;
+            --bg: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --text: #202124;
+            --text-secondary: #5F6368;
+            --border: #E8EAED;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 30px 20px;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin: 0 0 8px 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .instructions {
+            max-width: 1200px;
+            margin: 0 auto 25px auto;
+            background: #E8F0FE;
+            border-left: 4px solid var(--primary);
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #174EA6;
+        }
+
+        .grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(60,64,67,0.1), 0 4px 8px rgba(60,64,67,0.06);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-allow { background: #E6F4EA; color: var(--success); }
+        .badge-warn { background: #FEF7E0; color: #B06000; }
+        .badge-block { background: #FCE8E6; color: var(--danger); }
+
+        .engine-tag {
+            font-size: 11px;
+            color: var(--primary);
+            background: #E8F0FE;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .card h3 {
+            margin: 0 0 6px 0;
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 0 0 14px 0;
+            line-height: 1.4;
+            min-height: 36px;
+        }
+
+        .qr-wrapper {
+            background: #FFFFFF;
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .qr-wrapper img {
+            width: 180px;
+            height: 180px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .payload-box {
+            background: #F1F3F4;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 11px;
+            color: #3C4043;
+            word-break: break-all;
+            margin-top: auto;
+            position: relative;
+        }
+
+        .copy-btn {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 10px;
+            padding: 4px 8px;
+            cursor: pointer;
+            float: right;
+            margin-left: 6px;
+            font-weight: 600;
+        }
+
+        .copy-btn:hover {
+            background: #E8EAED;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🛡️ FraudShield AI — Live QR & Fraud Test Dashboard</h1>
+        <p>Real-Time Test Payloads for Point-and-Scan Camera Detection & Manual Verification</p>
+    </div>
+
+    <div class="instructions">
+        <strong>📱 How to Test:</strong> Open the <strong>FraudShield AI</strong> app on your Android phone, tap <strong>"Scan QR with Camera"</strong>, and point your camera directly at any QR code on this screen. Alternatively, click <strong>Copy</strong> on any card and paste it into the <strong>Manual QR / URL Verification</strong> box on your phone.
+    </div>
+
+    <div class="grid">
+
+        <!-- 1. Safe Supermarket Store (ALLOW) -->
+        <div class="card">
+            <div class="card-header">
+                <span class="badge badge-allow">VERIFIED SAFE</span>
+                <span class="engine-tag">JA-GNN Verified Merchant</span>
+            </div>
+            <h3>1. Legitimate Store (DMart Supermarket)</h3>
+            <p class="card-desc">Authentic grocery merchant in white-listed graph network. Clean transaction history with zero syndicate ties.</p>
+            <div class="qr-wrapper">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi%3A%2F%2Fpay%3Fpa%3Ddmart_retail%40hdfc%26pn%3DDMart%2520Store%26am%3D640.00%26mc%3D5411" alt="DMart Safe Store QR">
+            </div>
+            <div class="payload-box">
+                <button class="copy-btn" onclick="navigator.clipboard.writeText('upi://pay?pa=dmart_retail@hdfc&pn=DMart%20Store&am=640.00&mc=5411')">Copy</button>
+                upi://pay?pa=dmart_retail@hdfc&pn=DMart%20Store&am=640.00&mc=5411
+            </div>
+        </div>
+
+        <!-- 2. Safe Official Web URL (ALLOW + Browser Redirect) -->
+        <div class="card">
+            <div class="card-header">
+                <span class="badge badge-allow">VERIFIED SAFE</span>
+                <span class="engine-tag">Perimeter URL Whitelist</span>
+            </div>
+            <h3>2. Official Domain (Google Official Portal)</h3>
+            <p class="card-desc">Authoritative root domain (Layer 0 Whitelist). Clicking "Open Safe Link in Browser" opens default mobile browser.</p>
+            <div class="qr-wrapper">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fgoogle.com" alt="Google Safe URL QR">
+            </div>
+            <div class="payload-box">
+                <button class="copy-btn" onclick="navigator.clipboard.writeText('https://google.com')">Copy</button>
+                https://google.com
+            </div>
+        </div>
+
+        <!-- 3. Money Mule Syndicate (BLOCK) -->
+        <div class="card">
+            <div class="card-header">
+                <span class="badge badge-block">HARD BLOCK</span>
+                <span class="engine-tag">JA-GNN Graph Syndicate</span>
+            </div>
+            <h3>3. Cyber-Fraud Mule (Syndicate SYN_8892)</h3>
+            <p class="card-desc">Linked to frozen money-mule syndicate and banned device IMEI. Triggered by 2-hop topological graph analysis.</p>
+            <div class="qr-wrapper">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi%3A%2F%2Fpay%3Fpa%3Drahul_kumar88%40ybl%26pn%3DFastTransfer%26am%3D18500" alt="Mule Account QR">
+            </div>
+            <div class="payload-box">
+                <button class="copy-btn" onclick="navigator.clipboard.writeText('upi://pay?pa=rahul_kumar88@ybl&pn=FastTransfer&am=18500')">Copy</button>
+                upi://pay?pa=rahul_kumar88@ybl&pn=FastTransfer&am=18500
+            </div>
+        </div>
+
+        <!-- 4. Payment URL Handled by JA-GNN (BLOCK) -->
+        <div class="card">
+            <div class="card-header">
+                <span class="badge badge-block">HARD BLOCK</span>
+                <span class="engine-tag">JA-GNN Model Inference</span>
+            </div>
+            <h3>4. Web Payment Link with Mule Payee</h3>
+            <p class="card-desc">Web payment URL containing a payment parameter. Handled directly by JA-GNN model on CUDA and intercepted.</p>
+            <div class="qr-wrapper">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fupiqr.in%2Fpay%3Fpa%3Drahul_kumar88%40ybl%26am%3D18500" alt="Payment URL Mule QR">
+            </div>
+            <div class="payload-box">
+                <button class="copy-btn" onclick="navigator.clipboard.writeText('https://upiqr.in/pay?pa=rahul_kumar88@ybl&am=18500')">Copy</button>
+                https://upiqr.in/pay?pa=rahul_kumar88@ybl&am=18500
+            </div>
+        </div>
+
+        <!-- 5. Banking Impersonation Phishing URL (BLOCK) -->
+        <div class="card">
+            <div class="card-header">
+                <span class="badge badge-block">HARD BLOCK</span>
+                <span class="engine-tag">Threat Intelligence Cache</span>
+            </div>
+            <h3>5. Fake Banking Portal (SBI KYC Phishing)</h3>
+            <p class="card-desc">Confirmed high-risk credential-harvesting trap reported on threat blacklist feeds. Browser redirection barred.</p>
+            <div class="qr-wrapper">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=http%3A%2F%2Fsbi-kyc-verification.portal-update.xyz%2Flogin" alt="Phishing Portal QR">
+            </div>
+            <div class="payload-box">
+                <button class="copy-btn" onclick="navigator.clipboard.writeText('http://sbi-kyc-verification.portal-update.xyz/login')">Copy</button>
+                http://sbi-kyc-verification.portal-update.xyz/login
+            </div>
+        </div>
+
+        <!-- 6. Reverse-Charge Collect Scam (BLOCK) -->
+        <div class="card">
+            <div class="card-header">
+                <span class="badge badge-block">HARD BLOCK</span>
+                <span class="engine-tag">UPI Protocol Guard</span>
+            </div>
+            <h3>6. Reverse-Charge Collect Scam Trap</h3>
+            <p class="card-desc">Tampered UPI request configured as a 'collect' transaction designed to debit your bank account rather than paying you.</p>
+            <div class="qr-wrapper">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi%3A%2F%2Fcollect%3Fpa%3Dscammer_refund%40upi%26pn%3DCustomerSupport%26am%3D8500%26mode%3Dcollect" alt="Collect Scam QR">
+            </div>
+            <div class="payload-box">
+                <button class="copy-btn" onclick="navigator.clipboard.writeText('upi://collect?pa=scammer_refund@upi&pn=CustomerSupport&am=8500&mode=collect')">Copy</button>
+                upi://collect?pa=scammer_refund@upi&pn=CustomerSupport&am=8500&mode=collect
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+

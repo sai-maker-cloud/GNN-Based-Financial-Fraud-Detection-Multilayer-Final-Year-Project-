@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">FraudShield AI</string>
+    <string name="tagline">GNN-Powered Financial Fraud &amp; QR Gatekeeper</string>
+
+    <!-- Navigation & Titles -->
+    <string name="nav_home">Dashboard</string>
+    <string name="nav_scanner">Scan QR</string>
+    <string name="nav_history">Audit History</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Top Bar Quick Actions -->
+    <string name="toggle_theme">Toggle Dark/Light Mode</string>
+    <string name="toggle_language">Change Language</string>
+
+    <!-- Hero Actions -->
+    <string name="scan_and_protect">Scan QR with Camera</string>
+    <string name="scan_desc">Real-time camera scanner with instant JA-GNN graph &amp; phishing defense</string>
+
+    <!-- Manual Input & Verification -->
+    <string name="manual_check_title">Manual QR / URL Verification</string>
+    <string name="manual_check_desc">Paste any payment QR payload, UPI URI, or web link to inspect</string>
+    <string name="manual_check_hint">e.g. upi://pay?pa=store@upi or https://example.com</string>
+    <string name="btn_check_ai">Analyze with AI</string>
+    <string name="paste_clipboard">Paste</string>
+    <string name="paste_payload">Paste Payload / Demo</string>
+    <string name="preset_samples">Test Presets:</string>
+    <string name="preset_safe_url">Safe URL (Browser)</string>
+    <string name="preset_payment_url">Payment URL (JA-GNN)</string>
+    <string name="preset_safe">Safe Store</string>
+    <string name="preset_phishing">Phishing URL</string>
+    <string name="preset_mule">Mule Syndicate</string>
+    <string name="preset_collect">Collect Scam</string>
+
+    <!-- Engine Status Card -->
+    <string name="engine_title">JA-GNN Security Engine</string>
+    <string name="engine_connected">Engine Online &amp; Protecting</string>
+    <string name="engine_offline">Backend Offline - Local Shield Active</string>
+    <string name="stat_scanned">Total Scanned</string>
+    <string name="stat_blocked">Threats Blocked</string>
+    <string name="stat_safe">Safe Cleared</string>
+
+    <!-- Explainable AI (XAI) Breakdown -->
+    <string name="xai_attribution_title">AI Engine Attribution</string>
+    <string name="xai_decision_safe">VERIFIED SAFE</string>
+    <string name="xai_decision_warn">SUSPICIOUS ANOMALY</string>
+    <string name="xai_decision_block">DANGEROUS FRAUD DETECTED</string>
+
+    <string name="decision_allow_title">Payment Verified &amp; Safe</string>
+    <string name="decision_allow_desc">No suspicious graph ties, money-mule rings, or phishing anomalies detected.</string>
+    <string name="decision_url_safe_title">Web Link Verified &amp; Safe</string>
+    <string name="decision_url_safe_desc">Domain is authentic and clean. No phishing, malware, or open-redirect risks detected.</string>
+    <string name="btn_proceed_to_pay">Redirect to Payment App</string>
+    <string name="btn_open_browser">Open Safe Link in Browser</string>
+    <string name="btn_proceed_link_anyway">Proceed to Link Anyway</string>
+
+    <string name="decision_warn_title">Caution: Suspicious Account</string>
+    <string name="decision_warn_desc">This recipient account exhibits unusual transaction velocity or newly created graph ties.</string>
+    <string name="btn_proceed_anyway">I Understand the Risk — Proceed</string>
+    <string name="btn_cancel_payment">Cancel Payment</string>
+
+    <string name="decision_block_title">Fraud Intercepted &amp; Hard Blocked</string>
+    <string name="decision_block_desc">High-risk threat detected! Redirection is disabled to prevent financial loss.</string>
+    <string name="hard_block_notice">🔒 HARD BLOCK: Redirection to payment gateway is blocked for your safety.</string>
+    <string name="btn_dismiss">Dismiss Alert</string>
+
+    <!-- Security Layers -->
+    <string name="security_layers_title">Active AI Protection Layers</string>
+    <string name="layer_url_title">Perimeter URL &amp; Quishing Defense</string>
+    <string name="layer_url_desc">Scans domain TLDs, typosquatting &amp; malware URLs hidden in QR codes</string>
+    <string name="layer_gnn_title">JA-GNN Financial Graph Intelligence</string>
+    <string name="layer_gnn_desc">Deep 2-hop graph relation inspection against money-mule syndicates</string>
+    <string name="layer_protocol_title">UPI Protocol Tamper Shield</string>
+    <string name="layer_protocol_desc">Intercepts reverse-charge collect scams &amp; fraudulent refund traps</string>
+
+    <!-- Audit History & Logs -->
+    <string name="recent_scans">Recent Security Audits</string>
+    <string name="filter_all">All</string>
+    <string name="filter_blocked">Blocked</string>
+    <string name="filter_safe">Safe</string>
+    <string name="clear_history">Clear History</string>
+    <string name="no_audits">No transactions scanned yet. Use the scanner or paste a payload above.</string>
+
+    <!-- Details -->
+    <string name="payee_name">Recipient</string>
+    <string name="payee_upi">UPI ID / Target</string>
+    <string name="amount">Amount</string>
+    <string name="risk_score">Risk Score</string>
+    <string name="detected_threats">Explainable AI Analysis</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_instruction">Align any payment QR code inside the frame</string>
+    <string name="scanner_flash">Flash</string>
+    <string name="scanner_gallery">Gallery</string>
+    <string name="scanner_analyzing">Analyzing with JA-GNN Graph &amp; Threat Intelligence…</string>
+    <string name="camera_permission_required">Camera permission is required to scan QR codes</string>
+    <string name="grant_permission">Grant Camera Permission</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Security Settings</string>
+    <string name="setting_theme">Theme</string>
+    <string name="theme_system">System Default</string>
+    <string name="theme_light">Light Theme</string>
+    <string name="theme_dark">Dark Theme</string>
+    <string name="setting_language">App Language</string>
+    <string name="setting_backend_url">FastAPI Backend Server</string>
+    <string name="backend_url_desc">URL of the JA-GNN model inference microservice</string>
+    <string name="btn_save">Save Changes</string>
+</resources>
