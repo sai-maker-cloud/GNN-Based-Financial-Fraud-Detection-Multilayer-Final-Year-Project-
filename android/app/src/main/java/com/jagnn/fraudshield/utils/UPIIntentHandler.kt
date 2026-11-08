@@ -74,16 +74,25 @@ object UPIIntentHandler {
         }
 
         try {
-            if (isWebUrl(trimmed)) {
-                // If the target is a web URL, forward directly to browser handler
-                launchSafeUrl(context, trimmed)
-                return
-            }
-
-            val uri = if (trimmed.startsWith("upi://")) {
-                Uri.parse(trimmed)
-            } else {
-                Uri.parse("upi://pay?$trimmed")
+            val uri = when {
+                trimmed.startsWith("upi://", ignoreCase = true) -> Uri.parse(trimmed)
+                // If it's a web URL containing UPI parameters (e.g., https://.../pay?pa=abc@upi&am=100)
+                (trimmed.startsWith("http://", ignoreCase = true) || trimmed.startsWith("https://", ignoreCase = true)) &&
+                        (trimmed.contains("pa=", ignoreCase = true) || trimmed.contains("pn=", ignoreCase = true)) -> {
+                    val parsed = Uri.parse(trimmed)
+                    val query = parsed.query
+                    if (!query.isNullOrEmpty() && query.contains("pa=", ignoreCase = true)) {
+                        Uri.parse("upi://pay?$query")
+                    } else {
+                        launchSafeUrl(context, trimmed)
+                        return
+                    }
+                }
+                isWebUrl(trimmed) -> {
+                    launchSafeUrl(context, trimmed)
+                    return
+                }
+                else -> Uri.parse("upi://pay?$trimmed")
             }
 
             val intent = Intent(Intent.ACTION_VIEW, uri).apply {
@@ -95,12 +104,12 @@ object UPIIntentHandler {
             }
             context.startActivity(chooser)
         } catch (e: Exception) {
-            Toast.makeText(context, "No UPI payment application found on device.", Toast.LENGTH_LONG).show()
-        }
-    }
-            context.startActivity(chooser)
-        } catch (e: Exception) {
-            Toast.makeText(context, "No UPI payment application found on device.", Toast.LENGTH_LONG).show()
+            // Fallback to browser if it was an HTTP URL
+            if (trimmed.startsWith("http://", ignoreCase = true) || trimmed.startsWith("https://", ignoreCase = true)) {
+                launchSafeUrl(context, trimmed)
+            } else {
+                Toast.makeText(context, "No UPI payment application found on device.", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

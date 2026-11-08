@@ -27,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import android.widget.Toast
 import com.jagnn.fraudshield.R
 import com.jagnn.fraudshield.data.model.QRAnalyzeResponse
 import com.jagnn.fraudshield.ui.theme.*
@@ -61,10 +63,27 @@ fun RiskShieldModal(
             !cleanPayload.contains("pa=") &&
             (payloadType == "URL" || UPIIntentHandler.isWebUrl(cleanPayload))
 
-    // Trigger haptic feedback & auto-blacklist on danger
+    var autoLaunched by remember { mutableStateOf(false) }
+
+    // Trigger haptic feedback & auto-launch on safe, auto-blacklist on danger
     LaunchedEffect(decision) {
         when (decision) {
-            "ALLOW" -> SoundVibrationHelper.vibrateSuccess(context)
+            "ALLOW" -> {
+                SoundVibrationHelper.vibrateSuccess(context)
+                if (!autoLaunched) {
+                    autoLaunched = true
+                    // Brief visual confirmation delay (450ms) so user sees the green "Verified Safe" shield
+                    delay(450)
+                    if (isPureWebUrl) {
+                        Toast.makeText(context, "✅ Verified Safe! Opening Browser...", Toast.LENGTH_SHORT).show()
+                        UPIIntentHandler.launchSafeUrl(context, cleanPayload)
+                    } else {
+                        Toast.makeText(context, "✅ Verified Safe! Opening Payment Gateway...", Toast.LENGTH_SHORT).show()
+                        UPIIntentHandler.launchUpiPayment(context, cleanPayload)
+                    }
+                    onDismiss()
+                }
+            }
             "WARN" -> SoundVibrationHelper.vibrateWarning(context)
             else -> {
                 SoundVibrationHelper.vibrateFraudAlert(context)
@@ -309,15 +328,14 @@ fun RiskShieldModal(
                             shape = RoundedCornerShape(26.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = ShieldGreen)
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Language,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(18.dp)
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(16.dp),
+                                color = Color.White,
+                                strokeWidth = 2.dp
                             )
-                            Spacer(modifier = Modifier.width(8.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
                             Text(
-                                text = stringResource(R.string.btn_open_browser),
+                                text = "Verified Safe • Opening Browser...",
                                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                 color = Color.White
                             )
@@ -335,15 +353,14 @@ fun RiskShieldModal(
                             shape = RoundedCornerShape(26.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = ShieldGreen)
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Security,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(18.dp)
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(16.dp),
+                                color = Color.White,
+                                strokeWidth = 2.dp
                             )
-                            Spacer(modifier = Modifier.width(8.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
                             Text(
-                                text = stringResource(R.string.btn_proceed_to_pay),
+                                text = "Verified Safe • Launching Payment...",
                                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                 color = Color.White
                             )
