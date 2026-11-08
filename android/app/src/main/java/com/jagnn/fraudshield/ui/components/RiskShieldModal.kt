@@ -123,7 +123,17 @@ fun RiskShieldModal(
     )
 
     ModalBottomSheet(
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            if (decision == "WARN") {
+                // If user dismissed / canceled a suspicious warning without proceeding, permanently hard-block it!
+                com.jagnn.fraudshield.data.repository.DeviceBlacklistManager.blockEntity(
+                    rawPayload = cleanPayload,
+                    domainOrTarget = response.targetEntity,
+                    reason = "Suspicious threat dismissed/cancelled by user. Permanently hard-blocked on this device."
+                )
+            }
+            onDismiss()
+        },
         shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
         containerColor = MaterialTheme.colorScheme.surface
     ) {

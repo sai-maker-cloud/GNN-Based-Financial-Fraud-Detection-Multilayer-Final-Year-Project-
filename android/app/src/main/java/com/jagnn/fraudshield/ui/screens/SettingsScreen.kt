@@ -1,5 +1,6 @@
 package com.jagnn.fraudshield.ui.screens
 
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Router
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -207,6 +209,60 @@ fun SettingsScreen(
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(text = stringResource(R.string.btn_save))
+                        }
+                    }
+                }
+            }
+
+            // System-Wide Threat Interception Card
+            item {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(imageVector = Icons.Default.Security, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = "System-Wide Link & Threat Guard",
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Intercept links clicked inside WhatsApp, SMS, Telegram, and Gmail. Automatically stops blacklisted threats and phishing sites from ever opening.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        Spacer(modifier = Modifier.height(14.dp))
+                        Button(
+                            onClick = {
+                                try {
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                                        val roleManager = context.getSystemService(android.app.role.RoleManager::class.java)
+                                        if (roleManager.isRoleAvailable(android.app.role.RoleManager.ROLE_BROWSER)) {
+                                            val intent = roleManager.createRequestRoleIntent(android.app.role.RoleManager.ROLE_BROWSER)
+                                            context.startActivity(intent)
+                                            return@Button
+                                        }
+                                    }
+                                    val intent = Intent(android.provider.Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
+                                    context.startActivity(intent)
+                                } catch (_: Exception) {
+                                    val intent = Intent(android.provider.Settings.ACTION_SETTINGS)
+                                    context.startActivity(intent)
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Icon(imageVector = Icons.Default.Security, contentDescription = null, modifier = Modifier.size(16.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Set as System Link Guard (Default)")
                         }
                     }
                 }
