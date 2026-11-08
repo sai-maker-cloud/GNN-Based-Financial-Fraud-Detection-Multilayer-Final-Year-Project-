@@ -51,6 +51,32 @@ object UPIIntentHandler {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(normalizedUrl)).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
+
+            // If FraudShield is set as default browser, avoid looping back to ourselves.
+            // Explicitly target an external browser (e.g. Chrome, Firefox, Samsung Browser)
+            val packageManager = context.packageManager
+            val activities = packageManager.queryIntentActivities(browserIntent, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY)
+            val externalBrowser = activities.firstOrNull { it.activityInfo.packageName != context.packageName }
+
+            if (externalBrowser != null) {
+                browserIntent.setPackage(externalBrowser.activityInfo.packageName)
+            } else {
+                val knownBrowsers = listOf(
+                    "com.android.chrome",
+                    "org.mozilla.firefox",
+                    "com.sec.android.app.sbrowser",
+                    "com.brave.browser",
+                    "com.opera.browser"
+                )
+                for (pkg in knownBrowsers) {
+                    try {
+                        packageManager.getPackageInfo(pkg, 0)
+                        browserIntent.setPackage(pkg)
+                        break
+                    } catch (_: Exception) {}
+                }
+            }
+
             context.startActivity(browserIntent)
         } catch (e: Exception) {
             Toast.makeText(context, "No web browser found to open link.", Toast.LENGTH_SHORT).show()
