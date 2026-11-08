@@ -1,7 +1,15 @@
 package com.jagnn.fraudshield.ui.screens
 
+import android.app.role.RoleManager
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Router
@@ -22,6 +31,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.jagnn.fraudshield.R
+import com.jagnn.fraudshield.ui.theme.ShieldGreen
+import com.jagnn.fraudshield.ui.theme.ShieldGreenContainer
 import com.jagnn.fraudshield.utils.LocaleHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,6 +50,16 @@ fun SettingsScreen(
     val context = LocalContext.current
     var urlInput by remember { mutableStateOf(currentBackendUrl) }
     var showLanguageDialog by remember { mutableStateOf(false) }
+
+    var isDefaultGuardActive by remember {
+        mutableStateOf(checkIsDefaultBrowser(context))
+    }
+
+    val roleLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        isDefaultGuardActive = checkIsDefaultBrowser(context)
+    }
 
     Scaffold(
         topBar = {
@@ -219,21 +240,32 @@ fun SettingsScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (isDefaultGuardActive) ShieldGreenContainer.copy(alpha = 0.4f)
+                        else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    )
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(imageVector = Icons.Default.Security, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            Icon(
+                                imageVector = if (isDefaultGuardActive) Icons.Default.CheckCircle else Icons.Default.Security,
+                                contentDescription = null,
+                                tint = if (isDefaultGuardActive) ShieldGreen else MaterialTheme.colorScheme.primary
+                            )
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
-                                text = "System-Wide Link & Threat Guard",
-                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
+                                text = if (isDefaultGuardActive) "System Link Guard: ACTIVE" else "System-Wide Link & Threat Guard",
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                color = if (isDefaultGuardActive) ShieldGreen else MaterialTheme.colorScheme.onSurface
                             )
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Intercept links clicked inside WhatsApp, SMS, Telegram, and Gmail. Automatically stops blacklisted threats and phishing sites from ever opening.",
+                            text = if (isDefaultGuardActive)
+                                "FraudShield is actively intercepting and blocking dangerous links from WhatsApp, SMS, Telegram, and Gmail before any browser can open them."
+                            else
+                                "Intercept links clicked inside WhatsApp, SMS, Telegram, and Gmail. Automatically stops blacklisted threats and phishing sites from ever opening.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -241,28 +273,51 @@ fun SettingsScreen(
                         Spacer(modifier = Modifier.height(14.dp))
                         Button(
                             onClick = {
+                                if (isDefaultGuardActive) {
+                                    Toast.makeText(context, "🛡️ System Link Guard is already active and protecting your device!", Toast.LENGTH_SHORT).show()
+                                    return@Button
+                                }
                                 try {
-                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                                        val roleManager = context.getSystemService(android.app.role.RoleManager::class.java)
-                                        if (roleManager.isRoleAvailable(android.app.role.RoleManager.ROLE_BROWSER)) {
-                                            val intent = roleManager.createRequestRoleIntent(android.app.role.RoleManager.ROLE_BROWSER)
-                                            context.startActivity(intent)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                        val roleManager = context.getSystemService(RoleManager::class.java)
+                                        if (roleManager != null && roleManager.isRoleAvailable(RoleManager.ROLE_BROWSER)) {
+                                            val roleIntent = roleManager.createRequestRoleIntent(RoleManager.ROLE_BROWSER)
+                                            roleLauncher.launch(roleIntent)
                                             return@Button
                                         }
                                     }
-                                    val intent = Intent(android.provider.Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
-                                    context.startActivity(intent)
+                                    val defaultAppsIntent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS).apply {
+                                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    }
+                                    context.startActivity(defaultAppsIntent)
                                 } catch (_: Exception) {
-                                    val intent = Intent(android.provider.Settings.ACTION_SETTINGS)
-                                    context.startActivity(intent)
+                                    try {
+                                        val appDetailsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                            data = Uri.fromParts("package", context.packageName, null)
+                                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        }
+                                        context.startActivity(appDetailsIntent)
+                                    } catch (_: Exception) {
+                                        val genericIntent = Intent(Settings.ACTION_SETTINGS).apply {
+                                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        }
+                                        context.startActivity(genericIntent)
+                                    }
                                 }
                             },
                             modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(12.dp)
+                            shape = RoundedCornerShape(12.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (isDefaultGuardActive) ShieldGreen else MaterialTheme.colorScheme.primary
+                            )
                         ) {
-                            Icon(imageVector = Icons.Default.Security, contentDescription = null, modifier = Modifier.size(16.dp))
+                            Icon(
+                                imageVector = if (isDefaultGuardActive) Icons.Default.CheckCircle else Icons.Default.Security,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp)
+                            )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Set as System Link Guard (Default)")
+                            Text(if (isDefaultGuardActive) "Active (Device Protected)" else "Set as System Link Guard (Default)")
                         }
                     }
                 }
@@ -333,5 +388,15 @@ fun ThemeChip(
         label = { Text(text = label, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center) },
         modifier = modifier
     )
+}
+
+private fun checkIsDefaultBrowser(context: Context): Boolean {
+    return try {
+        val testIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com"))
+        val resolveInfo = context.packageManager.resolveActivity(testIntent, PackageManager.MATCH_DEFAULT_ONLY)
+        resolveInfo?.activityInfo?.packageName == context.packageName
+    } catch (_: Exception) {
+        false
+    }
 }
 
