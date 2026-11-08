@@ -7,7 +7,6 @@
 [![Android](https://img.shields.io/badge/Platform-Android%2014%20(API%2034)-3DDC84.svg)](https://developer.android.com/)
 [![Kotlin](https://img.shields.io/badge/Language-Kotlin%20%7C%20Jetpack%20Compose-7F52FF.svg)](https://kotlinlang.org/)
 [![Cloud Ready](https://img.shields.io/badge/Cloud-Render%20%7C%20Railway-informational.svg)](https://render.com)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
@@ -327,4 +326,3 @@ Main Gatekeeper inference endpoint. Analyzes raw QR payloads in < 180ms.
 - **Target Platforms**: Android Mobile OS & Cloud Microservices
 - **Core Models**: Jump-Attentive GNN (PyTorch Geometric) & Lexical Random Forest (Scikit-Learn)
 - **Author**: Sai Abhang ([@sai-maker-cloud](https://github.com/sai-maker-cloud))
-- **License**: MIT Open Source License
