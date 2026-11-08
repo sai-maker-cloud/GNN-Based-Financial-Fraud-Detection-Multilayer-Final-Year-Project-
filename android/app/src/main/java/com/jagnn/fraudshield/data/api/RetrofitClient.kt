@@ -8,16 +8,16 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    // Default to 127.0.0.1:8000 for physical phone USB reverse (adb reverse tcp:8000 tcp:8000)
-    const val DEFAULT_BASE_URL = "http://127.0.0.1:8000/"
+    // Live 24/7 Cloud Backend deployed on Render
+    const val DEFAULT_BASE_URL = "https://fraudshield-backend-vrxr.onrender.com/"
 
     private var currentBaseUrl = DEFAULT_BASE_URL
     private var apiService: FraudShieldApiService? = null
 
     private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(3, TimeUnit.SECONDS)
-        .readTimeout(5, TimeUnit.SECONDS)
-        .writeTimeout(5, TimeUnit.SECONDS)
+        .connectTimeout(15, TimeUnit.SECONDS)
+        .readTimeout(15, TimeUnit.SECONDS)
+        .writeTimeout(15, TimeUnit.SECONDS)
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         })
