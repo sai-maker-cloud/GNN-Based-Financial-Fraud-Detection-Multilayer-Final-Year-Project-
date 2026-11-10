@@ -1,9 +1,12 @@
 package com.jagnn.fraudshield.ui.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jagnn.fraudshield.data.model.QRAnalyzeResponse
 import com.jagnn.fraudshield.data.repository.FraudRepository
+import com.jagnn.fraudshield.utils.LocationHelper
+import com.jagnn.fraudshield.utils.UPIIntentHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +20,8 @@ sealed class ScanUiState {
 }
 
 class ScannerViewModel(
-    private val fraudRepository: FraudRepository
+    private val fraudRepository: FraudRepository,
+    private val application: Application
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ScanUiState>(ScanUiState.Idle)
@@ -70,12 +74,42 @@ class ScannerViewModel(
         _uiState.value = ScanUiState.Analyzing
 
         viewModelScope.launch {
-            val result = fraudRepository.analyzeQR(qrData, baseUrl)
+            // Attach current GPS coordinates for UPI/payment QR payloads (camera OR manual test)
+            val isPaymentPayload = qrData.trim().startsWith("upi://", ignoreCase = true) ||
+                    qrData.contains("pa=", ignoreCase = true) ||
+                    !UPIIntentHandler.isWebUrl(qrData)
+            val coords = if (isPaymentPayload) LocationHelper.getCurrentCoordinates(application) else null
+            val result = fraudRepository.analyzeQR(
+                qrData = qrData,
+                baseUrl = baseUrl,
+                latitude = coords?.latitude,
+                longitude = coords?.longitude,
+                accuracyM = coords?.accuracyM,
+                source = if (isCameraScan) "camera" else "manual_or_intent"
+            )
             result.onSuccess { response ->
                 _uiState.value = ScanUiState.Success(response, qrData)
             }.onFailure { error ->
                 _uiState.value = ScanUiState.Error(error.localizedMessage ?: "Analysis failed")
             }
+        }
+    }
+
+    fun reportThreatToServer(
+        entity: String,
+        entityType: String,
+        reason: String,
+        riskScore: Float,
+        baseUrl: String
+    ) {
+        viewModelScope.launch {
+            fraudRepository.reportBlockToServer(
+                entity = entity,
+                entityType = entityType,
+                reason = reason,
+                riskScore = riskScore,
+                baseUrl = baseUrl
+            )
         }
     }
 

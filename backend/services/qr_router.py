@@ -99,6 +99,7 @@ class QRPayloadRouter:
         return {
             "payload_type": PayloadType.URL,
             "is_payment_url": is_payment_url,
+            "is_merchant_qr": bool(mcc) or bool(query_params.get("sign")) or bool(query_params.get("orgid")) or is_payment_domain,
             "target_entity": payee_vpa or domain,
             "url": url,
             "domain": domain,
@@ -145,10 +146,13 @@ class QRPayloadRouter:
             payee_name = query_params.get("pn", "").strip()
             mcc = query_params.get("mc", "").strip()
             amount = query_params.get("am")
+            has_merchant_sig = bool(query_params.get("sign") or query_params.get("orgid") or query_params.get("tid"))
+            is_merchant_qr = bool(mcc) or has_merchant_sig or (query_params.get("mode") == "02")
 
             return {
                 "payload_type": PayloadType.UPI,
                 "is_payment_url": False,
+                "is_merchant_qr": is_merchant_qr,
                 "target_entity": payee_vpa or "unknown_payee",
                 "payee_vpa": payee_vpa,
                 "payee_name": payee_name,
@@ -170,6 +174,7 @@ class QRPayloadRouter:
             return {
                 "payload_type": PayloadType.UPI,
                 "is_payment_url": False,
+                "is_merchant_qr": False,
                 "target_entity": clean_text.lower(),
                 "payee_vpa": clean_text.lower(),
                 "payee_name": "",

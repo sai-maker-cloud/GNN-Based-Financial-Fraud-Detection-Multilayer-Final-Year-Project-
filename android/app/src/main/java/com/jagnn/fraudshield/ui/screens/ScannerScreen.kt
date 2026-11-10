@@ -51,15 +51,26 @@ fun ScannerScreen(
         )
     }
 
-    val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        hasCameraPermission = isGranted
+    val permissionsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { results ->
+        hasCameraPermission = results[Manifest.permission.CAMERA] == true ||
+            ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
     LaunchedEffect(Unit) {
+        val needed = mutableListOf<String>()
         if (!hasCameraPermission) {
-            permissionLauncher.launch(Manifest.permission.CAMERA)
+            needed.add(Manifest.permission.CAMERA)
+        }
+        val hasFine = ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        val hasCoarse = ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        if (!hasFine && !hasCoarse) {
+            needed.add(Manifest.permission.ACCESS_FINE_LOCATION)
+            needed.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+        if (needed.isNotEmpty()) {
+            permissionsLauncher.launch(needed.toTypedArray())
         }
     }
 
@@ -160,7 +171,7 @@ fun ScannerScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
-                    onClick = { permissionLauncher.launch(Manifest.permission.CAMERA) },
+                    onClick = { permissionsLauncher.launch(arrayOf(Manifest.permission.CAMERA)) },
                     shape = RoundedCornerShape(20.dp)
                 ) {
                     Text(text = stringResource(R.string.grant_permission))

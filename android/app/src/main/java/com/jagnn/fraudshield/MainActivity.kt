@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
     private val scannerViewModel: ScannerViewModel by viewModels {
-        ScannerViewModelFactory(mainViewModel.fraudRepo)
+        ScannerViewModelFactory(mainViewModel.fraudRepo, application)
     }
 
     override fun attachBaseContext(newBase: Context) {
@@ -149,6 +149,7 @@ class MainActivity : ComponentActivity() {
                                         currentLanguage = currentLanguage,
                                         currentTheme = currentTheme,
                                         currentBackendUrl = backendUrl,
+                                        fraudRepository = mainViewModel.fraudRepo,
                                         onLanguageChange = { newLang ->
                                             mainViewModel.setLanguage(newLang)
                                         },
@@ -165,6 +166,15 @@ class MainActivity : ComponentActivity() {
                                 RiskShieldModal(
                                     response = success.response,
                                     rawQr = success.rawQr,
+                                    onReportThreat = { entity, entityType, reason, score ->
+                                        scannerViewModel.reportThreatToServer(
+                                            entity = entity,
+                                            entityType = entityType,
+                                            reason = reason,
+                                            riskScore = score,
+                                            baseUrl = backendUrl
+                                        )
+                                    },
                                     onDismiss = { scannerViewModel.dismissResult() }
                                 )
                             }

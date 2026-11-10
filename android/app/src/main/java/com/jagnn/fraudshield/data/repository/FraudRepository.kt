@@ -3,7 +3,10 @@ package com.jagnn.fraudshield.data.repository
 import android.net.Uri
 import com.jagnn.fraudshield.data.api.RetrofitClient
 import com.jagnn.fraudshield.data.model.AuditItem
+import com.jagnn.fraudshield.data.model.BlacklistBlockRequest
 import com.jagnn.fraudshield.data.model.ClientActionDto
+import com.jagnn.fraudshield.data.model.MerchantDto
+import com.jagnn.fraudshield.data.model.MerchantRegisterRequest
 import com.jagnn.fraudshield.data.model.QRAnalyzeRequest
 import com.jagnn.fraudshield.data.model.QRAnalyzeResponse
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,10 +19,25 @@ class FraudRepository {
     private val _auditList = MutableStateFlow<List<AuditItem>>(createInitialSampleAudits())
     val auditList: StateFlow<List<AuditItem>> = _auditList.asStateFlow()
 
-    suspend fun analyzeQR(qrData: String, baseUrl: String): Result<QRAnalyzeResponse> {
+    suspend fun analyzeQR(
+        qrData: String,
+        baseUrl: String,
+        latitude: Double? = null,
+        longitude: Double? = null,
+        accuracyM: Float? = null,
+        source: String = "camera"
+    ): Result<QRAnalyzeResponse> {
         return try {
             val api = RetrofitClient.getService(baseUrl)
-            val response = api.analyzeQR(QRAnalyzeRequest(qrRaw = qrData, source = "camera"))
+            val response = api.analyzeQR(
+                QRAnalyzeRequest(
+                    qrRaw = qrData,
+                    source = source,
+                    latitude = latitude,
+                    longitude = longitude,
+                    accuracyM = accuracyM
+                )
+            )
             if (response.isSuccessful && response.body() != null) {
                 val body = response.body()!!
                 recordAudit(qrData, body)
@@ -35,6 +53,86 @@ class FraudRepository {
             val fallback = performLocalFallbackAnalysis(qrData)
             recordAudit(qrData, fallback)
             Result.success(fallback)
+        }
+    }
+
+    suspend fun reportBlockToServer(
+        entity: String,
+        entityType: String,
+        reason: String,
+        riskScore: Float,
+        baseUrl: String
+    ) {
+        try {
+            val api = RetrofitClient.getService(baseUrl)
+            api.blockEntityOnServer(
+                BlacklistBlockRequest(
+                    entity = entity,
+                    entityType = entityType,
+                    reason = reason,
+                    riskScore = riskScore
+                )
+            )
+        } catch (_: Exception) {
+            // Device blacklist already persisted locally; backend sync is best-effort
+        }
+    }
+
+    suspend fun registerMerchantCounter(
+        shopName: String,
+        rawQrOrVpa: String,
+        latitude: Double,
+        longitude: Double,
+        baseUrl: String
+    ): Result<String> {
+        return try {
+            val trimmed = rawQrOrVpa.trim()
+            val req = if (trimmed.startsWith("upi://", ignoreCase = true)) {
+                MerchantRegisterRequest(
+                    shopName = shopName.trim(),
+                    rawQr = trimmed,
+                    latitude = latitude,
+                    longitude = longitude
+                )
+            } else {
+                MerchantRegisterRequest(
+                    shopName = shopName.trim(),
+                    officialVpa = trimmed,
+                    latitude = latitude,
+                    longitude = longitude
+                )
+            }
+            val api = RetrofitClient.getService(baseUrl)
+            val resp = api.registerMerchant(req)
+            if (resp.isSuccessful && resp.body() != null) {
+                Result.success(resp.body()!!.message.ifBlank { "Store QR bound to GPS location!" })
+            } else {
+                Result.failure(Exception("Registration failed (${resp.code()}): ${resp.errorBody()?.string() ?: "Server error"}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun fetchRegisteredMerchants(baseUrl: String): Result<List<MerchantDto>> {
+        return try {
+            val api = RetrofitClient.getService(baseUrl)
+            val resp = api.getRegisteredMerchants()
+            if (resp.isSuccessful && resp.body() != null) {
+                Result.success(resp.body()!!.merchants)
+            } else {
+                Result.failure(Exception("Could not load merchants (${resp.code()})"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun deleteRegisteredMerchant(merchantId: Int, baseUrl: String): Boolean {
+        return try {
+            RetrofitClient.getService(baseUrl).deleteMerchant(merchantId).isSuccessful
+        } catch (_: Exception) {
+            false
         }
     }
 
@@ -78,13 +176,26 @@ class FraudRepository {
                 )
             }
             lower.startsWith("upi://") -> {
-                QRAnalyzeResponse(
-                    decision = "ALLOW",
-                    riskScore = 0.08f,
-                    payloadType = "UPI_PAY",
-                    reasons = listOf("Standard UPI payment intent structure verified."),
-                    clientAction = ClientActionDto(allowProceed = true, showWarning = false)
-                )
+                val hasMerchantCode = lower.contains("mc=") || lower.contains("sign=") || lower.contains("orgid=")
+                val isKnownMerchant = lower.contains("sharma_kirana@icici") || lower.contains("dmart_retail@hdfc")
+                if (hasMerchantCode || isKnownMerchant) {
+                    QRAnalyzeResponse(
+                        decision = "ALLOW",
+                        riskScore = 0.08f,
+                        payloadType = "UPI_PAY",
+                        reasons = listOf("Standard business merchant UPI payment intent verified."),
+                        clientAction = ClientActionDto(allowProceed = true, showWarning = false)
+                    )
+                } else {
+                    QRAnalyzeResponse(
+                        decision = "WARN",
+                        riskScore = 0.45f,
+                        payloadType = "UPI",
+                        summaryReason = "Offline Caution — Personal Account QR: No merchant business code (MCC). Confirm shopkeeper name before paying.",
+                        reasons = listOf("No business Merchant Category Code (mc=) present. Verify this wasn't pasted over a shop QR."),
+                        clientAction = ClientActionDto(allowProceed = false, showWarning = true, warningMessage = "Unverified Personal QR: Verify recipient name matches the shopkeeper.")
+                    )
+                }
             }
             else -> {
                 QRAnalyzeResponse(

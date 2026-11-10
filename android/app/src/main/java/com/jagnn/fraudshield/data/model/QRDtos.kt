@@ -5,7 +5,10 @@ import com.google.gson.annotations.SerializedName
 data class QRAnalyzeRequest(
     @SerializedName("qr_raw") val qrRaw: String,
     @SerializedName("qr_data") val qrData: String = qrRaw,
-    @SerializedName("source") val source: String = "camera"
+    @SerializedName("source") val source: String = "camera",
+    @SerializedName("latitude") val latitude: Double? = null,
+    @SerializedName("longitude") val longitude: Double? = null,
+    @SerializedName("accuracy_m") val accuracyM: Float? = null
 )
 
 data class QRAnalyzeResponse(
@@ -17,7 +20,8 @@ data class QRAnalyzeResponse(
     @SerializedName("client_action") val clientAction: ClientActionDto? = null,
     @SerializedName("action") val action: String? = null,
     @SerializedName("target_entity") val targetEntity: String? = null,
-    @SerializedName("analyzed_at") val analyzedAt: String? = null
+    @SerializedName("analyzed_at") val analyzedAt: String? = null,
+    @SerializedName("metadata") val metadata: Map<String, Any>? = null
 ) {
     val normalizedDecision: String
         get() = when (decision.uppercase()) {
@@ -25,6 +29,16 @@ data class QRAnalyzeResponse(
             "SUSPICIOUS", "WARN" -> "WARN"
             else -> "BLOCK"
         }
+
+    val isStickerTamperingSuspected: Boolean
+        get() = (metadata?.get("sticker_tampering_suspected") as? Boolean) == true ||
+                (summaryReason?.contains("Sticker", ignoreCase = true) == true) ||
+                (summaryReason?.contains("Mismatch", ignoreCase = true) == true) ||
+                (summaryReason?.contains("Counter", ignoreCase = true) == true)
+
+    val isUnverifiedPersonalQr: Boolean
+        get() = (metadata?.get("unverified_personal_qr") as? Boolean) == true ||
+                (summaryReason?.contains("Personal Account QR", ignoreCase = true) == true)
 
     val displayReasons: List<String>
         get() {
@@ -57,4 +71,41 @@ data class AuditItem(
     val riskScore: Float,
     val reasons: List<String>,
     val timestamp: Long = System.currentTimeMillis()
+)
+
+data class MerchantRegisterRequest(
+    @SerializedName("shop_name") val shopName: String,
+    @SerializedName("official_vpa") val officialVpa: String? = null,
+    @SerializedName("raw_qr") val rawQr: String? = null,
+    @SerializedName("mcc") val mcc: String? = null,
+    @SerializedName("latitude") val latitude: Double,
+    @SerializedName("longitude") val longitude: Double,
+    @SerializedName("radius_m") val radiusM: Float = 40.0f
+)
+
+data class MerchantDto(
+    @SerializedName("id") val id: Int = 0,
+    @SerializedName("shop_name") val shopName: String = "",
+    @SerializedName("official_vpa") val officialVpa: String = "",
+    @SerializedName("mcc") val mcc: String? = null,
+    @SerializedName("latitude") val latitude: Double = 0.0,
+    @SerializedName("longitude") val longitude: Double = 0.0,
+    @SerializedName("radius_m") val radiusM: Float = 40.0f
+)
+
+data class MerchantRegisterResponse(
+    @SerializedName("status") val status: String = "",
+    @SerializedName("message") val message: String = "",
+    @SerializedName("merchant") val merchant: MerchantDto? = null
+)
+
+data class MerchantListResponse(
+    @SerializedName("merchants") val merchants: List<MerchantDto> = emptyList()
+)
+
+data class BlacklistBlockRequest(
+    @SerializedName("entity") val entity: String,
+    @SerializedName("entity_type") val entityType: String = "UPI",
+    @SerializedName("reason") val reason: String,
+    @SerializedName("risk_score") val riskScore: Float = 1.0f
 )

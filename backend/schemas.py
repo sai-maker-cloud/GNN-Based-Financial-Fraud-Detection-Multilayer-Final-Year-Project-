@@ -47,10 +47,25 @@ class QRAnalyzeRequest(BaseModel):
     qr_data: Optional[str] = Field(None, description="Alternative field name for QR data")
     user_id: Optional[str] = Field("user_android_client", description="Unique user or client ID")
     device_fingerprint: Optional[str] = Field(None, description="Client device hardware hash")
+    source: Optional[str] = Field("camera", description="Trigger source: camera, manual, or external_intent")
+    latitude: Optional[float] = Field(None, description="Device GPS latitude for geo-fenced merchant QR verification")
+    longitude: Optional[float] = Field(None, description="Device GPS longitude for geo-fenced merchant QR verification")
+    accuracy_m: Optional[float] = Field(None, description="GPS accuracy in meters")
 
     def get_raw_qr(self) -> str:
         """Returns the non-empty QR payload string."""
         return (self.qr_raw or self.qr_data or "").strip()
+
+
+class MerchantRegisterRequest(BaseModel):
+    """Registers an authentic merchant counter QR at a physical store location."""
+    shop_name: str = Field(..., min_length=2, description="Human-readable shop or business name")
+    official_vpa: Optional[str] = Field(None, description="Verified merchant UPI ID (pa=)")
+    raw_qr: Optional[str] = Field(None, description="Optional raw upi:// QR string to parse VPA and MCC from")
+    mcc: Optional[str] = Field(None, description="4-digit Merchant Category Code (e.g. 5411)")
+    latitude: float = Field(..., description="Physical store latitude")
+    longitude: float = Field(..., description="Physical store longitude")
+    radius_m: float = Field(40.0, ge=10.0, le=500.0, description="Geo-fence radius in meters")
 
 
 class QRAnalyzeResponse(BaseModel):

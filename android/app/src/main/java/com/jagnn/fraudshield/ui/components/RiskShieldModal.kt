@@ -40,6 +40,7 @@ import com.jagnn.fraudshield.utils.UPIIntentHandler
 fun RiskShieldModal(
     response: QRAnalyzeResponse?,
     rawQr: String,
+    onReportThreat: (String, String, String, Float) -> Unit = { _, _, _, _ -> },
     onDismiss: () -> Unit
 ) {
     if (response == null) return
@@ -87,11 +88,18 @@ fun RiskShieldModal(
             "WARN" -> SoundVibrationHelper.vibrateWarning(context)
             else -> {
                 SoundVibrationHelper.vibrateFraudAlert(context)
+                val blockReason = response.summaryReason ?: "Hard blocked by FraudShield AI"
                 // DANGER / BLOCK: Auto-record permanently into device hard blacklist
                 com.jagnn.fraudshield.data.repository.DeviceBlacklistManager.blockEntity(
                     rawPayload = cleanPayload,
                     domainOrTarget = response.targetEntity,
-                    reason = response.summaryReason ?: "Hard blocked by FraudShield AI"
+                    reason = blockReason
+                )
+                onReportThreat(
+                    response.targetEntity ?: cleanPayload,
+                    payloadType,
+                    blockReason,
+                    riskScore
                 )
             }
         }
@@ -105,6 +113,8 @@ fun RiskShieldModal(
 
     // Determine AI Engine attribution based on payload and reasoning
     val aiEngineAttribution = when {
+        response.isStickerTamperingSuspected -> "Counter QR Sticker Tampering Shield"
+        response.isUnverifiedPersonalQr -> "Personal vs. Merchant QR Guard"
         isPaymentUrl -> "JA-GNN Financial Graph Intelligence"
         payloadType.contains("COLLECT") || cleanPayload.contains("mode=01") -> "UPI Protocol Tamper Shield"
         payloadType.contains("UPI") -> "JA-GNN Financial Graph Intelligence"
@@ -122,9 +132,11 @@ fun RiskShieldModal(
         label = "pulseScale"
     )
 
+    val shouldBlacklistOnWarnCancel = response.isStickerTamperingSuspected || !response.isUnverifiedPersonalQr
+
     ModalBottomSheet(
         onDismissRequest = {
-            if (decision == "WARN") {
+            if (decision == "WARN" && shouldBlacklistOnWarnCancel) {
                 // If user dismissed / canceled a suspicious warning without proceeding, permanently hard-block it!
                 com.jagnn.fraudshield.data.repository.DeviceBlacklistManager.blockEntity(
                     rawPayload = cleanPayload,
@@ -408,17 +420,36 @@ fun RiskShieldModal(
                     // SUSPICIOUS: Allow cancellation or cautious override
                     Button(
                         onClick = {
-                            // User unproceeds / cancels suspicious transaction -> PERMANENTLY HARD BLOCK ON THIS DEVICE!
-                            com.jagnn.fraudshield.data.repository.DeviceBlacklistManager.blockEntity(
-                                rawPayload = cleanPayload,
-                                domainOrTarget = response.targetEntity,
-                                reason = "Suspicious threat rejected by user. Permanently hard-blocked on this device."
-                            )
-                            android.widget.Toast.makeText(
-                                context,
-                                "🔒 Threat permanently blacklisted on this device. Future access blocked.",
-                                android.widget.Toast.LENGTH_LONG
-                            ).show()
+                            if (shouldBlacklistOnWarnCancel) {
+                                val rejectReason = if (response.isStickerTamperingSuspected) {
+                                    "Suspicious counter QR rejected by user (possible sticker swap). Permanently blacklisted."
+                                } else {
+                                    "Suspicious threat rejected by user. Permanently hard-blocked on this device."
+                                }
+                                // User unproceeds / cancels suspicious threat -> PERMANENTLY HARD BLOCK!
+                                com.jagnn.fraudshield.data.repository.DeviceBlacklistManager.blockEntity(
+                                    rawPayload = cleanPayload,
+                                    domainOrTarget = response.targetEntity,
+                                    reason = rejectReason
+                                )
+                                onReportThreat(
+                                    response.targetEntity ?: cleanPayload,
+                                    payloadType,
+                                    rejectReason,
+                                    maxOf(riskScore, 0.90f)
+                                )
+                                Toast.makeText(
+                                    context,
+                                    "🔒 Threat permanently blacklisted on this device & reported. Future access blocked.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Payment cancelled safely without opening UPI app.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                             onDismiss()
                         },
                         modifier = Modifier

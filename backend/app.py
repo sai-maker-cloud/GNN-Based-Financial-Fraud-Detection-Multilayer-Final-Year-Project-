@@ -21,6 +21,7 @@ from typing import Dict, Any, List
 from backend.schemas import (
     QRAnalyzeRequest,
     QRAnalyzeResponse,
+    MerchantRegisterRequest,
     HealthResponse,
     DecisionType,
     PayloadType,
@@ -158,17 +159,23 @@ async def analyze_qr(request: QRAnalyzeRequest, background_tasks: BackgroundTask
             # Branch A1: Payment-Related URL -> Evaluated by JA-GNN Graph Intelligence + Perimeter URL Classifier
             url_res = url_svc.analyze(route_info["url"])
 
-            # Resolve payee VPA for JA-GNN
+            # Resolve payee VPA for JA-GNN & geo-fenced counter verification
             payee_vpa = route_info.get("payee_vpa")
             if not payee_vpa:
                 payee_vpa = f"{route_info.get('domain', 'merchant')}@gateway"
+
+            nearby_merchants = db.get_merchants_near(request.latitude, request.longitude)
+            location_history = db.analyze_location_vpa_history(request.latitude, request.longitude, payee_vpa)
 
             gnn_res = gnn_svc.analyze_transaction(
                 payee_vpa=payee_vpa,
                 amount=route_info.get("amount"),
                 mcc=route_info.get("mcc"),
                 payee_name=route_info.get("payee_name"),
-                is_collect_scam=route_info.get("is_collect_scam", False)
+                is_collect_scam=route_info.get("is_collect_scam", False),
+                is_merchant_qr=route_info.get("is_merchant_qr", False),
+                nearby_merchants=nearby_merchants,
+                location_history=location_history,
             )
 
             # Risk Fusion:
@@ -223,7 +230,8 @@ async def analyze_qr(request: QRAnalyzeRequest, background_tasks: BackgroundTask
                 background_tasks.add_task(
                     db.log_scan, request.user_id, request.device_fingerprint,
                     raw_qr, target_entity, payload_type.value, risk_score,
-                    decision.value, action.value, summary_reason
+                    decision.value, action.value, summary_reason,
+                    request.latitude, request.longitude,
                 )
                 return QRAnalyzeResponse(
                     status="success",
@@ -239,13 +247,20 @@ async def analyze_qr(request: QRAnalyzeRequest, background_tasks: BackgroundTask
                     metadata=metadata
                 )
 
-        # Branch B: JA-GNN Financial Graph Analysis
+        # Branch B: JA-GNN Financial Graph + Geo-Fenced Counter Sticker Check
+        payee_vpa = route_info.get("payee_vpa", "")
+        nearby_merchants = db.get_merchants_near(request.latitude, request.longitude)
+        location_history = db.analyze_location_vpa_history(request.latitude, request.longitude, payee_vpa)
+
         analysis_result = gnn_svc.analyze_transaction(
-            payee_vpa=route_info.get("payee_vpa", ""),
+            payee_vpa=payee_vpa,
             amount=route_info.get("amount"),
             mcc=route_info.get("mcc"),
             payee_name=route_info.get("payee_name"),
-            is_collect_scam=route_info.get("is_collect_scam", False)
+            is_collect_scam=route_info.get("is_collect_scam", False),
+            is_merchant_qr=route_info.get("is_merchant_qr", False),
+            nearby_merchants=nearby_merchants,
+            location_history=location_history,
         )
         risk_score = analysis_result["risk_score"]
         confidence = analysis_result["confidence"]
@@ -288,7 +303,9 @@ async def analyze_qr(request: QRAnalyzeRequest, background_tasks: BackgroundTask
         risk_score,
         decision.value,
         action.value,
-        summary_reason
+        summary_reason,
+        request.latitude,
+        request.longitude,
     )
 
     # 5. Return JSON payload to Android App
@@ -334,6 +351,70 @@ async def record_hard_block(data: Dict[str, Any]):
 async def get_blacklist(limit: int = 50):
     """Retrieves permanently blacklisted entities."""
     return {"blocked_entities": db.get_blocked_entities(limit=limit)}
+
+
+@app.post("/api/v1/merchants/register", tags=["Merchant Counter Guard"])
+async def register_merchant_qr(req: MerchantRegisterRequest):
+    """
+    Binds an authentic shopkeeper QR VPA to the physical store's GPS coordinates.
+    Detects QR sticker-overlay fraud if someone later pastes a foreign QR at the shop.
+    """
+    vpa = (req.official_vpa or "").strip().lower()
+    mcc = (req.mcc or "").strip()
+
+    if req.raw_qr:
+        route_info = QRPayloadRouter.route(req.raw_qr)
+        if not vpa:
+            vpa = (route_info.get("payee_vpa") or "").strip().lower()
+        if not mcc:
+            mcc = (route_info.get("mcc") or "").strip()
+
+    if not vpa or "@" not in vpa:
+        raise HTTPException(
+            status_code=400,
+            detail="Could not extract valid merchant UPI VPA (expected name@bank or upi://pay?pa=...)."
+        )
+
+    if db.is_entity_blocked(vpa):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Cannot register blacklisted VPA '{vpa}' as an authentic merchant."
+        )
+
+    merchant = db.register_merchant(
+        shop_name=req.shop_name,
+        official_vpa=vpa,
+        mcc=mcc,
+        latitude=req.latitude,
+        longitude=req.longitude,
+        radius_m=req.radius_m,
+    )
+    return {
+        "status": "success",
+        "message": f"Registered '{merchant['shop_name']}' ({merchant['official_vpa']}) at ({merchant['latitude']:.5f}, {merchant['longitude']:.5f}).",
+        "merchant": merchant,
+    }
+
+
+@app.get("/api/v1/merchants", tags=["Merchant Counter Guard"])
+async def list_registered_merchants(limit: int = 50):
+    """Lists registered physical store QR counter bindings."""
+    return {"merchants": db.get_all_merchants(limit=limit)}
+
+
+@app.get("/api/v1/merchants/nearby", tags=["Merchant Counter Guard"])
+async def list_nearby_merchants(lat: float, lon: float):
+    """Lists registered stores covering the given GPS coordinates."""
+    return {"merchants": db.get_merchants_near(lat, lon)}
+
+
+@app.delete("/api/v1/merchants/{merchant_id}", tags=["Merchant Counter Guard"])
+async def delete_registered_merchant(merchant_id: int):
+    """Deletes a registered merchant binding by ID."""
+    deleted = db.delete_merchant(merchant_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Merchant binding not found.")
+    return {"status": "success", "deleted_id": merchant_id}
 
 
 if __name__ == "__main__":
