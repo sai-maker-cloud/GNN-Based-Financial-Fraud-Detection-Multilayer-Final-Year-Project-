@@ -30,7 +30,6 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.jagnn.fraudshield.R
-import com.jagnn.fraudshield.ui.components.RiskShieldModal
 import com.jagnn.fraudshield.ui.components.ScannerOverlay
 import com.jagnn.fraudshield.ui.viewmodel.ScanUiState
 import com.jagnn.fraudshield.ui.viewmodel.ScannerViewModel
@@ -73,7 +72,7 @@ fun ScannerScreen(
             CameraPreviewView(
                 activity = activity,
                 onQrDetected = { qrCode ->
-                    viewModel.onQrScanned(qrCode, backendUrl)
+                    viewModel.onQrScanned(qrCode, backendUrl, isCameraScan = true)
                 },
                 onCameraControlReady = { control ->
                     cameraControl = control
@@ -173,30 +172,7 @@ fun ScannerScreen(
             }
         }
 
-        // Result Decision Shield Bottom Sheet
-        if (uiState is ScanUiState.Success) {
-            val success = uiState as ScanUiState.Success
-            RiskShieldModal(
-                response = success.response,
-                rawQr = success.rawQr,
-                onDismiss = { viewModel.dismissResult() }
-            )
-        }
-
-        // Error Notice Dialog
-        if (uiState is ScanUiState.Error) {
-            val error = uiState as ScanUiState.Error
-            AlertDialog(
-                onDismissRequest = { viewModel.dismissResult() },
-                title = { Text("Scan Analysis Notice") },
-                text = { Text(error.message) },
-                confirmButton = {
-                    Button(onClick = { viewModel.dismissResult() }) {
-                        Text("OK")
-                    }
-                }
-            )
-        }
+        // Result shield & error dialogs are rendered globally in MainActivity so they work across all screens
     }
 }
 

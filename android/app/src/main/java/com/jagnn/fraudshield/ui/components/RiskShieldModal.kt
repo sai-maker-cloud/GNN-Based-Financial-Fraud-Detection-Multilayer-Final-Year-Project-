@@ -63,10 +63,10 @@ fun RiskShieldModal(
             !cleanPayload.contains("pa=") &&
             (payloadType == "URL" || UPIIntentHandler.isWebUrl(cleanPayload))
 
-    var autoLaunched by remember { mutableStateOf(false) }
+    var autoLaunched by remember(response, cleanPayload) { mutableStateOf(false) }
 
     // Trigger haptic feedback & auto-launch on safe, auto-blacklist on danger
-    LaunchedEffect(decision) {
+    LaunchedEffect(response, cleanPayload) {
         when (decision) {
             "ALLOW" -> {
                 SoundVibrationHelper.vibrateSuccess(context)

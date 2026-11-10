@@ -26,7 +26,12 @@ class ScannerViewModel(
     private var lastScannedQr: String? = null
     private var lastScanTimestamp: Long = 0
 
-    fun onQrScanned(qrData: String, baseUrl: String) {
+    fun onQrScanned(qrData: String, baseUrl: String, isCameraScan: Boolean = false) {
+        // Never allow continuous camera frames to interrupt an ongoing scan or open shield modal
+        if (isCameraScan && (_uiState.value is ScanUiState.Analyzing || _uiState.value is ScanUiState.Success)) {
+            return
+        }
+
         val now = System.currentTimeMillis()
         // Prevent rapid duplicate scans within 2.5 seconds
         if (qrData == lastScannedQr && (now - lastScanTimestamp) < 2500) {
