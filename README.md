@@ -3,6 +3,8 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11-blue.svg)](https://www.python.org/)
 [![PyTorch Geometric](https://img.shields.io/badge/PyTorch-Geometric%202.3+-orange.svg)](https://pytorch-geometric.readthedocs.io/)
+[![ROC-AUC](https://img.shields.io/badge/ROC--AUC-96.51%25-brightgreen.svg)]()
+[![Precision](https://img.shields.io/badge/Precision-86.05%25-success.svg)]()
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg)](https://fastapi.tiangolo.com/)
 [![Android](https://img.shields.io/badge/Platform-Android%2014%20(API%2034)-3DDC84.svg)](https://developer.android.com/)
 [![Kotlin](https://img.shields.io/badge/Language-Kotlin%20%7C%20Jetpack%20Compose-7F52FF.svg)](https://kotlinlang.org/)
@@ -83,25 +85,26 @@ Digital payments across UPI, BharatQR, and dynamic web invoices have seen explos
 ## 📊 Real Verified Model Benchmarks
 
 ### 1. Jump-Attentive GNN (JA-GNN) — Financial Transaction Graph
-- **Dataset**: 300,000 real-world financial transactions with 808,122 heterogeneous nodes (Transactions, Users, Devices, IPs, Merchants).
-- **Validation**: 20,000 completely unseen transactions evaluated with calibrated threshold $T = 0.74$.
+- **Dataset**: 300,000 real-world financial transactions with 1,641,968 heterogeneous graph nodes across 12 targeted entity relations (Sender, Receiver, Merchant, Device, IP, Location, Sender-Device, Receiver-Device, Sender-IP, Receiver-IP, Device-IP, Sender-Receiver).
+- **Validation**: 42,000 completely unseen transactions evaluated with calibrated threshold $T = 0.74$ and standard threshold $T = 0.50$.
 - **Model Checkpoint**: [`results/checkpoints/best_ja_gnn_custom.pt`](results/checkpoints/best_ja_gnn_custom.pt)
 
 | Metric | Calibrated Threshold ($T = 0.74$) | Standard Threshold ($T = 0.50$) | Evaluation Verdict |
 | :--- | :---: | :---: | :--- |
-| **ROC-AUC** | **84.76%** (`0.847555`) | 84.76% (`0.847555`) | Excellent discriminative ranking power |
-| **Specificity (True Negative Rate)** | **93.83%** (`0.938321`) | 79.96% (`0.799569`) | **< 6.2% false alarms on legitimate users** |
-| **Overall Accuracy** | **92.67%** (`0.926700`) | 79.77% (`0.797650`) | Highly dependable real-world accuracy |
-| **Fraud Recall** | **48.44%** (`0.484375`) | **72.46%** (`0.724609`) | High capture of active money-mule rings |
-| **Fraud F1-Score** | **25.28%** (`0.252803`) | 15.49% (`0.154938`) | Tuned to eliminate consumer checkout drop-off |
-| **PR-AUC** | **26.56%** (`0.265559`) | 26.56% (`0.265559`) | High resilience against extreme class imbalance |
+| **Fraud Precision** | **86.05%** (`0.860470`) | 77.24% (`0.772404`) | **Meets & exceeds base paper target (≥ 85.0%)** |
+| **ROC-AUC** | **96.51%** (`0.965080`) | **96.51%** (`0.965080`) | Exceptional discriminative ranking power |
+| **PR-AUC** | **86.93%** (`0.869318`) | 86.93% (`0.869318`) | High resilience against extreme class imbalance |
+| **Fraud Recall** | 65.10% (`0.650952`) | **86.19%** (`0.861905`) | Intercepts massive-scale money-mule operations |
+| **Fraud F1-Score** | **74.12%** (`0.741189`) | **81.47%** (`0.814704`) | High harmonic balance between precision & recall |
+| **Specificity (True Negative Rate)** | **98.14%** (`0.981373`) | 95.52% (`0.955182`) | **< 1.86% false alarm rate on legitimate transactions** |
+| **Overall Accuracy** | **93.18%** (`0.931810`) | **94.12%** (`0.941190`) | Superior real-world production accuracy |
 
 ```
-Confusion Matrix (20,000 Validation Transactions @ T=0.74):
+Confusion Matrix (42,000 Validation Transactions @ T=0.74):
 ┌─────────────────────────┬─────────────────────────┐
-│ True Negative:  18,286  │ False Positive:   1,202 │
+│ True Negative:  35,035  │ False Positive:     665 │
 ├─────────────────────────┼─────────────────────────┤
-│ False Negative:    264  │ True Positive:      248 │
+│ False Negative:  2,199  │ True Positive:    4,101 │
 └─────────────────────────┴─────────────────────────┘
 ```
 

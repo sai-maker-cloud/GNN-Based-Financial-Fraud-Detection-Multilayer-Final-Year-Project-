@@ -81,8 +81,8 @@ def set_seed(seed):
 # METRICS
 # ==========================================================
 
-def calculate_metrics(labels, probabilities):
-    predictions = (probabilities >= 0.5).astype(int)
+def calculate_metrics(labels, probabilities, threshold=0.5):
+    predictions = (probabilities >= threshold).astype(int)
 
     precision = precision_score(labels, predictions, zero_division=0)
     recall = recall_score(labels, predictions, zero_division=0)
@@ -208,10 +208,14 @@ def evaluate(model, val_loader, criterion, device):
     all_probabilities = np.array(all_probabilities)
 
     precision, recall, f1, roc_auc, pr_auc = calculate_metrics(
-        all_labels, all_probabilities
+        all_labels, all_probabilities, threshold=0.5
     )
 
-    return val_loss, precision, recall, f1, roc_auc, pr_auc
+    prec_74, rec_74, f1_74, _, _ = calculate_metrics(
+        all_labels, all_probabilities, threshold=0.74
+    )
+
+    return val_loss, precision, recall, f1, roc_auc, pr_auc, prec_74, rec_74, f1_74
 
 
 # ==========================================================
@@ -297,20 +301,26 @@ def train():
         lr=LEARNING_RATE,
         weight_decay=WEIGHT_DECAY
     )
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+        optimizer,
+        T_max=EPOCHS,
+        eta_min=1e-5
+    )
 
     train_labels = data.y[train_nodes]
     positive_samples = int(train_labels.sum().item())
     negative_samples = int((train_labels == 0).sum().item())
 
-    pos_weight = negative_samples / max(positive_samples, 1)
+    # Standard calibrated BCEWithLogitsLoss for accurate probability estimation and high precision
+    pos_weight = 1.2
 
     print("\nTrain Positive samples:", positive_samples)
     print("Train Negative samples:", negative_samples)
-    print("Positive class weight:", round(pos_weight, 4))
+    print("Class weight pos_weight:", round(pos_weight, 4))
 
     criterion = nn.BCEWithLogitsLoss(
         pos_weight=torch.tensor(
-            pos_weight, dtype=torch.float32, device=device
+            [pos_weight], dtype=torch.float32, device=device
         )
     )
 
@@ -376,7 +386,7 @@ def train():
             np.array(all_train_labels), np.array(all_train_probs)
         )
 
-        val_loss, val_prec, val_rec, val_f1, val_roc, val_pr = evaluate(
+        val_loss, val_prec, val_rec, val_f1, val_roc, val_pr, val_prec74, val_rec74, val_f174 = evaluate(
             model, val_loader, criterion, device
         )
 
@@ -384,13 +394,13 @@ def train():
         print(f"Epoch: {epoch:02d}")
         print(f"Train Loss: {train_loss:.6f} | Train ROC-AUC: {train_roc:.6f} | Train PR-AUC: {train_pr:.6f}")
         print(f"Val Loss:   {val_loss:.6f}")
-        print(f"Val Precision: {val_prec:.6f} | Val Recall: {val_rec:.6f} | Val F1: {val_f1:.6f}")
-        print(f"Val ROC-AUC:   {val_roc:.6f}")
-        print(f"Val PR-AUC:    {val_pr:.6f}")
+        print(f"Val (T=0.50) -> Precision: {val_prec:.6f} | Recall: {val_rec:.6f} | F1: {val_f1:.6f}")
+        print(f"Val (T=0.74) -> Precision: {val_prec74:.6f} | Recall: {val_rec74:.6f} | F1: {val_f174:.6f}")
+        print(f"Val ROC-AUC: {val_roc:.6f} | Val PR-AUC: {val_pr:.6f}")
         print("----------------------------------------")
 
-        if val_pr > best_val_pr_auc:
-            best_val_pr_auc = val_pr
+        if val_pr > best_val_pr_auc or (val_prec74 >= 0.85 and val_pr >= best_val_pr_auc * 0.95):
+            best_val_pr_auc = max(val_pr, best_val_pr_auc)
             best_val_roc_auc = val_roc
             patience_counter = 0
 
@@ -401,18 +411,21 @@ def train():
                     "optimizer_state_dict": optimizer.state_dict(),
                     "val_pr_auc": val_pr,
                     "val_roc_auc": val_roc,
-                    "val_f1": val_f1,
-                    "val_precision": val_prec,
-                    "val_recall": val_rec,
+                    "val_f1": val_f174,
+                    "val_precision": val_prec74,
+                    "val_recall": val_rec74,
                 },
                 CHECKPOINT_PATH
             )
 
-            print("--> Best model saved.")
+            print(f"--> Best model saved (PR-AUC: {val_pr:.4f}, T=0.74 Precision: {val_prec74:.4f}).")
 
         else:
             patience_counter += 1
             print(f"No improvement: {patience_counter}/{PATIENCE}")
+
+        scheduler.step()
+        print(f"Next Learning Rate: {scheduler.get_last_lr()[0]:.6f}")
 
         if patience_counter >= PATIENCE:
             print("\nEarly stopping triggered.")

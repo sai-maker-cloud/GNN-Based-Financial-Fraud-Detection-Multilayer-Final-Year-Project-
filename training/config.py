@@ -22,9 +22,9 @@ HIDDEN_CHANNELS = 128
 
 NUM_RELATIONS = 12
 
-NUM_LAYERS = 3
+NUM_LAYERS = 2
 
-DROPOUT = 0.5
+DROPOUT = 0.1
 
 
 # ==========================================================
@@ -33,14 +33,13 @@ DROPOUT = 0.5
 
 LEARNING_RATE = 1e-3
 
-WEIGHT_DECAY = 1e-4
+WEIGHT_DECAY = 1e-5
 
-# Temporary sanity test
-EPOCHS = 3
+EPOCHS = 20
 
-PATIENCE = 3
+PATIENCE = 7
 
-BATCH_SIZE = 2048
+BATCH_SIZE = 1024
 
 
 # ==========================================================

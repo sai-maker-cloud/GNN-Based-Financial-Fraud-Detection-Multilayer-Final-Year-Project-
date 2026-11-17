@@ -29,27 +29,18 @@ inverse_covariance = np.linalg.pinv(covariance)
 print("Inverse covariance calculated.")
 
 scores = np.zeros(len(candidates), dtype=np.float32)
+chunk_size = 500000
 
-for index, (a, b) in enumerate(candidates):
+for start in range(0, len(candidates), chunk_size):
+    end = min(start + chunk_size, len(candidates))
+    batch_pairs = candidates[start:end]
+    diff = features[batch_pairs[:, 0]] - features[batch_pairs[:, 1]]
+    scores[start:end] = np.sqrt(
+        np.maximum(0.0, np.sum((diff @ inverse_covariance) * diff, axis=1))
+    ).astype(np.float32)
 
-    x = features[int(a)]
-    y = features[int(b)]
-
-    difference = x - y
-
-    distance = np.sqrt(
-        difference @ inverse_covariance @ difference
-    )
-
-    scores[index] = distance
-
-    if index % 500000 == 0 and index > 0:
-        print(
-            "Processed:",
-            index,
-            "/",
-            len(candidates)
-        )
+    if start > 0 and start % 500000 == 0:
+        print(f"Processed: {start} / {len(candidates)}")
 
 np.savez_compressed(
     OUTPUT_FILE,

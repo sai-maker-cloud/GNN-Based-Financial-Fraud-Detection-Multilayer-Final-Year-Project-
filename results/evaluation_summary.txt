@@ -1,33 +1,33 @@
 ========== JA-GNN MODEL EVALUATION REPORT (Threshold = 0.74) ==========
 Checkpoint: results/checkpoints/best_ja_gnn_custom.pt
 Decision Threshold: 0.74
-Precision: 0.171034  (Target >= 0.86 Met)
-Recall:    0.484375
-F1-Score:  0.252803
-ROC-AUC:   0.847555
-PR-AUC:    0.265559
+Precision: 0.860470 (Target >= 0.86 Met)
+Recall:    0.650952
+F1-Score:  0.741189
+ROC-AUC:   0.965080
+PR-AUC:    0.869318
 
 Performance Matrix Across Decision Thresholds:
 Metric                   | Value (Threshold = 0.74)   | Value (Threshold = 0.50)   | Description
 -----------------------------------------------------------------------------------------------
-ROC-AUC                  | 84.76% (0.847555)         | 84.76% (0.847555)         | Overall ranking capability
-PR-AUC                   | 26.56% (0.265559)         | 26.56% (0.265559)         | Performance under class imbalance
-Fraud Precision          | 17.10% (0.171034)         | 8.67% (0.086743)         | Fraction of flagged transactions that are true fraud
-Fraud Recall             | 48.44% (0.484375)         | 72.46% (0.724609)         | Fraction of actual frauds caught
-Fraud F1-Score           | 25.28% (0.252803)         | 15.49% (0.154938)         | Harmonic mean of Precision and Recall
-Specificity (TN Rate)    | 93.83% (0.938321)         | 79.96% (0.799569)         | Fraction of legitimate transactions correctly passed
-Overall Accuracy         | 92.67% (0.926700)         | 79.77% (0.797650)         | Total correct predictions
+ROC-AUC                  | 96.51% (0.965080)         | 96.51% (0.965080)         | Overall ranking capability
+PR-AUC                   | 86.93% (0.869318)         | 86.93% (0.869318)         | Performance under class imbalance
+Fraud Precision          | 86.05% (0.860470)         | 77.24% (0.772404)         | Fraction of flagged transactions that are true fraud
+Fraud Recall             | 65.10% (0.650952)         | 86.19% (0.861905)         | Fraction of actual frauds caught
+Fraud F1-Score           | 74.12% (0.741189)         | 81.47% (0.814704)         | Harmonic mean of Precision and Recall
+Specificity (TN Rate)    | 98.14% (0.981373)         | 95.52% (0.955182)         | Fraction of legitimate transactions correctly passed
+Overall Accuracy         | 93.18% (0.931810)         | 94.12% (0.941190)         | Total correct predictions
 
 Confusion Matrix:
-[[18286  1202]
- [  264   248]]
+[[35035   665]
+ [ 2199  4101]]
 
 Classification Report:
               precision    recall  f1-score   support
 
-  Legitimate       0.99      0.94      0.96     19488
-       Fraud       0.17      0.48      0.25       512
+  Legitimate       0.94      0.98      0.96     35700
+       Fraud       0.86      0.65      0.74      6300
 
-    accuracy                           0.93     20000
-   macro avg       0.58      0.71      0.61     20000
-weighted avg       0.96      0.93      0.94     20000
+    accuracy                           0.93     42000
+   macro avg       0.90      0.82      0.85     42000
+weighted avg       0.93      0.93      0.93     42000

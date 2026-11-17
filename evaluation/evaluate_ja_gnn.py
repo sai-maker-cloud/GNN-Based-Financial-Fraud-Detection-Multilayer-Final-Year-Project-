@@ -159,10 +159,11 @@ def evaluate_checkpoint():
         all_labels, preds_074, target_names=["Legitimate", "Fraud"], zero_division=0
     )
 
+    target_met_str = " (Target >= 0.86 Met)" if prec_074 >= 0.86 else ""
     print(f"\n================ FINAL METRICS (Threshold = {DECISION_THRESHOLD}) ================")
     print(f"ROC-AUC:   {roc_auc:.6f}")
     print(f"PR-AUC:    {pr_auc:.6f}")
-    print(f"Precision: {prec_074:.6f}  (Target >= 0.86 Met)")
+    print(f"Precision: {prec_074:.6f}{target_met_str}")
     print(f"Recall:    {rec_074:.6f}")
     print(f"F1-Score:  {f1_074:.6f}")
     print(f"Accuracy:  {acc_074:.6f}")
@@ -193,7 +194,7 @@ def evaluate_checkpoint():
         f.write(f"========== JA-GNN MODEL EVALUATION REPORT (Threshold = {DECISION_THRESHOLD}) ==========\n")
         f.write(f"Checkpoint: {CHECKPOINT_PATH}\n")
         f.write(f"Decision Threshold: {DECISION_THRESHOLD}\n")
-        f.write(f"Precision: {prec_074:.6f}  (Target >= 0.86 Met)\n")
+        f.write(f"Precision: {prec_074:.6f}{target_met_str}\n")
         f.write(f"Recall:    {rec_074:.6f}\n")
         f.write(f"F1-Score:  {f1_074:.6f}\n")
         f.write(f"ROC-AUC:   {roc_auc:.6f}\n")
